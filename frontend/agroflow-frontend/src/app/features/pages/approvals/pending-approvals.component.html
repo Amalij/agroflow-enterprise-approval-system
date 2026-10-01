@@ -1,0 +1,78 @@
+<section class="approvals-page" aria-labelledby="approvals-title">
+  <header class="page-heading">
+    <div>
+      <p class="eyebrow">APPROVAL WORKSPACE</p>
+      <h1 id="approvals-title">Approvals</h1>
+      <p class="description">Review and process requests awaiting approval.</p>
+    </div>
+  </header>
+
+  @if (previewMode) {
+    <div class="preview-notice" role="status"><mat-icon>info</mat-icon><span><strong>Preview data</strong> Decisions in this view are temporary.</span></div>
+  }
+  @if (errorMessage) {
+    <div class="error-notice" role="alert"><mat-icon>cloud_off</mat-icon><span>{{ errorMessage }}</span><button mat-button type="button" (click)="retry()" [disabled]="loading">Retry</button></div>
+  }
+
+  <section class="approval-panel" aria-label="Pending approval queue">
+    <div class="filters">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search approvals</mat-label><mat-icon matPrefix>search</mat-icon>
+        <input matInput [formControl]="filters.controls.query" placeholder="Request, requester, or department">
+        @if (filters.controls.query.value) {
+          <button mat-icon-button matSuffix type="button" aria-label="Clear search" (click)="filters.controls.query.setValue('')"><mat-icon>close</mat-icon></button>
+        }
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Request Type</mat-label>
+        <mat-select [value]="filters.controls.requestType.value" (selectionChange)="filters.controls.requestType.setValue($event.value)">
+          <mat-option value="all">All types</mat-option>
+          @for (type of requestTypes; track type) { <mat-option [value]="type">{{ type }}</mat-option> }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Department</mat-label>
+        <mat-select [value]="filters.controls.department.value" (selectionChange)="filters.controls.department.setValue($event.value)">
+          <mat-option value="all">All departments</mat-option>
+          @for (department of departments; track department) { <mat-option [value]="department">{{ department }}</mat-option> }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select [value]="filters.controls.status.value" (selectionChange)="filters.controls.status.setValue($event.value)">
+          <mat-option value="all">All statuses</mat-option>
+          @for (status of statuses; track status) { <mat-option [value]="status">{{ status }}</mat-option> }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Approval Level</mat-label>
+        <mat-select [value]="filters.controls.approvalLevel.value" (selectionChange)="filters.controls.approvalLevel.setValue($event.value)">
+          <mat-option value="all">All levels</mat-option>
+          @for (level of approvalLevels; track level) { <mat-option [value]="level">{{ level }}</mat-option> }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    @if (loading) { <mat-progress-bar mode="indeterminate" aria-label="Loading approvals"></mat-progress-bar> }
+    <div class="table-wrap">
+      @if (dataSource.filteredData.length > 0) {
+        <table mat-table [dataSource]="dataSource" class="approvals-table">
+          <ng-container matColumnDef="id"><th mat-header-cell *matHeaderCellDef>Request ID</th><td mat-cell *matCellDef="let approval" class="id-cell">{{ approval.id }}</td></ng-container>
+          <ng-container matColumnDef="requestType"><th mat-header-cell *matHeaderCellDef>Request Type</th><td mat-cell *matCellDef="let approval">{{ approval.requestType }}</td></ng-container>
+          <ng-container matColumnDef="requester"><th mat-header-cell *matHeaderCellDef>Requested By</th><td mat-cell *matCellDef="let approval">{{ approval.requester.fullName }}</td></ng-container>
+          <ng-container matColumnDef="department"><th mat-header-cell *matHeaderCellDef>Department</th><td mat-cell *matCellDef="let approval">{{ approval.departmentName }}</td></ng-container>
+          <ng-container matColumnDef="amount"><th mat-header-cell *matHeaderCellDef>Amount</th><td mat-cell *matCellDef="let approval" class="amount-cell">{{ approval.amount | currency: approval.currency:'symbol':'1.0-2' }}</td></ng-container>
+          <ng-container matColumnDef="submittedAt"><th mat-header-cell *matHeaderCellDef>Submitted Date</th><td mat-cell *matCellDef="let approval">{{ approval.submittedAt | date: 'mediumDate' }}</td></ng-container>
+          <ng-container matColumnDef="level"><th mat-header-cell *matHeaderCellDef>Current Approval Level</th><td mat-cell *matCellDef="let approval">{{ approval.currentApprovalLevel }}<span class="level-count">{{ approval.levelNumber }} of {{ approval.totalLevels }}</span></td></ng-container>
+          <ng-container matColumnDef="status"><th mat-header-cell *matHeaderCellDef>Status</th><td mat-cell *matCellDef="let approval"><app-approval-status-chip [status]="approval.status" /></td></ng-container>
+          <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef><span class="visually-hidden">Actions</span></th><td mat-cell *matCellDef="let approval"><a mat-flat-button color="primary" class="review-button" [routerLink]="['/approvals', approval.id]">Review<mat-icon>arrow_forward</mat-icon></a></td></ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      } @else if (!loading) {
+        <div class="empty-state"><mat-icon>{{ dataSource.data.length ? 'filter_list_off' : 'task_alt' }}</mat-icon><strong>{{ dataSource.data.length ? 'No matching approvals' : 'You’re all caught up' }}</strong><span>{{ dataSource.data.length ? 'Adjust filters to see more approvals.' : 'Requests assigned to you will appear here.' }}</span></div>
+      }
+    </div>
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeOptions" [showFirstLastButtons]="true" aria-label="Select approval page"></mat-paginator>
+  </section>
+</section>

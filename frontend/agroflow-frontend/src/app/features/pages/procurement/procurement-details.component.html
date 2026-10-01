@@ -1,0 +1,36 @@
+<section class="procurement-details-page" aria-labelledby="procurement-details-title">
+  <a class="back-link" routerLink="/procurement"><mat-icon>arrow_back</mat-icon>Back to Procurement</a>
+  @if (loading) { <mat-progress-bar mode="indeterminate" aria-label="Loading Procurement details"></mat-progress-bar> }
+  @if (errorMessage && !request && !loading) { <div class="error-state" role="alert"><mat-icon>error_outline</mat-icon><h1>Request unavailable</h1><p>{{ errorMessage }}</p><button mat-stroked-button type="button" (click)="retry()">Retry</button></div> }
+
+  @if (request; as currentRequest) {
+    <header class="page-heading"><div><p class="eyebrow">PROCUREMENT · {{ currentRequest.id }}</p><h1 id="procurement-details-title">{{ currentRequest.requestTitle }}</h1></div><app-request-status-chip [status]="currentRequest.status" /></header>
+    @if (previewMode) { <div class="preview-notice" role="status"><mat-icon>info</mat-icon><span>This request is temporary preview data scoped to your account.</span></div> }
+    <div class="details-layout">
+      <div class="main-column">
+        <mat-card appearance="outlined" class="detail-card">
+          <h2>Procurement Information</h2>
+          <div class="info-grid">
+            <div><span>Requester</span><strong>{{ currentRequest.requesterName }}</strong><small>{{ currentRequest.requesterEmail }}</small></div>
+            <div><span>Department</span><strong>{{ currentRequest.departmentName }}</strong></div>
+            <div><span>Category</span><strong>{{ currentRequest.category }}</strong></div>
+            <div><span>Required Date</span><strong>{{ currentRequest.requiredDate | date: 'mediumDate' }}</strong></div>
+            <div><span>Quantity</span><strong>{{ currentRequest.item.quantity }}</strong></div>
+            <div><span>Estimated Unit Price</span><strong>{{ currentRequest.item.estimatedUnitPrice | currency: 'USD':'symbol':'1.0-2' }}</strong></div>
+            <div><span>Estimated Total Amount</span><strong>{{ currentRequest.item.estimatedTotalAmount | currency: 'USD':'symbol':'1.0-2' }}</strong></div>
+            <div><span>Current Approval Level</span><strong>{{ currentRequest.currentApprovalLevel || 'Draft · Not submitted' }}</strong></div>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="description-block"><h3>Item / Service</h3><p>{{ currentRequest.item.description }}</p></div>
+          <div class="description-block"><h3>Justification</h3><p>{{ currentRequest.justification }}</p></div>
+          @if (currentRequest.preferredSupplier) { <div class="description-block"><h3>Preferred Supplier</h3><p>{{ currentRequest.preferredSupplier }}</p></div> }
+          @if (currentRequest.additionalNotes) { <div class="description-block"><h3>Additional Notes</h3><p>{{ currentRequest.additionalNotes }}</p></div> }
+          <div class="attachments"><h3>Supporting Documents</h3>@if (currentRequest.attachment) { <div class="attachment-item"><mat-icon>attach_file</mat-icon><span><strong>{{ currentRequest.attachment.fileName }}</strong><small>{{ currentRequest.attachment.sizeBytes / 1024 | number: '1.0-0' }} KB</small></span></div> } @else { <p>No supporting documents provided.</p> }</div>
+        </mat-card>
+        <mat-card appearance="outlined" class="detail-card"><div class="section-heading"><div><h2>Approval Progress</h2><p>The approval route is provided by the request workflow.</p></div></div><app-approval-workflow-progress [steps]="currentRequest.approvalWorkflow" /></mat-card>
+        <mat-card appearance="outlined" class="detail-card"><h2>Approval History</h2>@if (currentRequest.approvalHistory.length) { <ol class="history-list">@for (entry of currentRequest.approvalHistory; track entry.id; let last = $last) { <li class="history-entry" [class.last-entry]="last"><span class="history-marker"><mat-icon>{{ entry.action === 'Rejected' ? 'cancel' : entry.action === 'Returned' ? 'undo' : entry.action === 'Approved' ? 'check_circle' : 'send' }}</mat-icon></span><div><div class="history-heading"><strong>{{ entry.action }}</strong><span>{{ entry.approvalLevel }}</span></div><p>{{ entry.actorName }} · {{ entry.actorRole }}</p>@if (entry.comment) { <blockquote>{{ entry.comment }}</blockquote> }<time>{{ entry.createdAt | date: 'medium' }}</time></div></li> }</ol> } @else { <p class="empty-history">No approval actions have been recorded.</p> }</mat-card>
+      </div>
+      @if (canEditDraft || canCancel || canDecide) { <aside class="action-panel"><mat-card appearance="outlined" class="detail-card"><h2>Actions</h2>@if (canEditDraft) { <button mat-stroked-button type="button" (click)="editDraft()"><mat-icon>edit</mat-icon>Edit Draft</button> }@if (canCancel) { <button mat-button type="button" class="cancel-action" (click)="cancelRequest()" [disabled]="saving"><mat-icon>cancel</mat-icon>Cancel Request</button> }@if (canDecide) { <mat-divider></mat-divider><button mat-flat-button color="primary" type="button" (click)="approve()" [disabled]="saving"><mat-icon>check</mat-icon>Approve</button><button mat-stroked-button type="button" class="return-action" (click)="returnForChanges()" [disabled]="saving"><mat-icon>undo</mat-icon>Return for Changes</button><button mat-stroked-button type="button" class="reject-action" (click)="reject()" [disabled]="saving"><mat-icon>cancel</mat-icon>Reject</button> }</mat-card></aside> }
+    </div>
+  }
+</section>

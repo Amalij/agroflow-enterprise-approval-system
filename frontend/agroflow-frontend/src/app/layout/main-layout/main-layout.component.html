@@ -1,0 +1,16 @@
+<mat-sidenav-container class="app-frame" [hasBackdrop]="isMobile">
+  <mat-sidenav class="app-sidebar" [mode]="isMobile ? 'over' : 'side'" [opened]="sidebarOpened" [disableClose]="!isMobile" (closedStart)="sidebarOpened = false">
+    <app-sidebar (navigate)="closeSidebarOnMobile()" />
+  </mat-sidenav>
+
+  <mat-sidenav-content class="workspace">
+    <app-navbar [breadcrumb]="breadcrumb" (menuToggle)="toggleSidebar()" />
+    <main class="main-content">
+      <div class="content-inner"><router-outlet /></div>
+      <footer class="workspace-footer">
+        <span>AgroFlow Enterprise</span>
+        <span>Approval management, made clear.</span>
+      </footer>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

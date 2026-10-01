@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/features/pages/approvals/approval-action-dialog.component.scss"],
+  "sourcesContent": [":host { display: block; }\r\nh2[mat-dialog-title] { color: #26392d; font: 600 19px/1.3 'Space Grotesk', sans-serif; }\r\n.dialog-description { color: #647268; font-size: 11px; line-height: 1.6; }\r\n.dialog-description strong { color: #34463a; }\r\n.comment-field { width: 100%; margin-top: 9px; }\r\nmat-dialog-actions { padding: 10px 24px 18px; }"],
+  "mappings": ";AAAA;AAAQ,WAAA;;AACR,EAAA,CAAA;AAAuB,SAAA;AAAgB,QAAA,IAAA,IAAA,CAAA,IAAA,eAAA,EAAA;;AACvC,CAAA;AAAsB,SAAA;AAAgB,aAAA;AAAiB,eAAA;;AACvD,CADA,mBACA;AAA6B,SAAA;;AAC7B,CAAA;AAAiB,SAAA;AAAa,cAAA;;AAC9B;AAAqB,WAAA,KAAA,KAAA;;",
+  "names": []
+}

@@ -1,0 +1,9 @@
+:host { display: block; width: 100%; height: 100%; }
+.app-frame { width: 100%; height: 100%; background: #f3f6f2; }
+.app-sidebar { width: 256px; border: 0; border-radius: 0; background: #173d32; }
+.workspace { display: flex; min-width: 0; flex-direction: column; background: #f3f6f2; }
+.main-content { display: flex; min-height: 0; flex: 1; flex-direction: column; overflow-y: auto; }
+.content-inner { width: min(100%, 1440px); flex: 1; margin: 0 auto; padding: 25px 34px 35px; }
+.workspace-footer { display: flex; justify-content: space-between; gap: 16px; padding: 15px 34px 17px; border-top: 1px solid #e4ebe4; color: #89948b; font-size: 10px; }
+@media (max-width: 959px) { .app-sidebar { width: 272px; } .content-inner { padding: 23px 24px 30px; } .workspace-footer { padding-right: 24px; padding-left: 24px; } }
+@media (max-width: 520px) { .content-inner { padding: 18px 17px 25px; } .workspace-footer { flex-direction: column; gap: 5px; padding: 13px 17px; } }

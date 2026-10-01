@@ -1,0 +1,66 @@
+<section class="iou-details-page" aria-labelledby="iou-details-title">
+  <a class="back-link" routerLink="/iou"><mat-icon>arrow_back</mat-icon>Back to IOU Management</a>
+  @if (loading) { <mat-progress-bar mode="indeterminate" aria-label="Loading IOU details"></mat-progress-bar> }
+  @if (errorMessage && !iou && !loading) { <div class="error-state" role="alert"><mat-icon>error_outline</mat-icon><h1>IOU unavailable</h1><p>{{ errorMessage }}</p><button mat-stroked-button type="button" (click)="retry()">Retry</button></div> }
+
+  @if (iou; as currentIOU) {
+    <header class="page-heading"><div><p class="eyebrow">IOU REQUEST · {{ currentIOU.id }}</p><h1 id="iou-details-title">{{ currentIOU.purpose }}</h1></div><app-request-status-chip [status]="currentIOU.status" /></header>
+    @if (previewMode) { <div class="preview-notice" role="status"><mat-icon>info</mat-icon><span>This IOU is temporary preview data scoped to your account.</span></div> }
+
+    <div class="details-layout">
+      <div class="main-column">
+        <mat-card appearance="outlined" class="detail-card">
+          <h2>IOU Information</h2>
+          <div class="info-grid">
+            <div><span>Requester</span><strong>{{ currentIOU.requesterName }}</strong><small>{{ currentIOU.requesterEmail }}</small></div>
+            <div><span>Department</span><strong>{{ currentIOU.departmentName }}</strong></div>
+            <div><span>Purpose</span><strong>{{ currentIOU.purpose }}</strong></div>
+            <div><span>Amount</span><strong>{{ currentIOU.amount | currency: currentIOU.currency:'symbol':'1.0-2' }}</strong></div>
+            <div><span>Request Date</span><strong>{{ currentIOU.requestDate | date: 'mediumDate' }}</strong></div>
+            <div><span>Required Date</span><strong>{{ currentIOU.requiredDate | date: 'mediumDate' }}</strong></div>
+            <div class="wide-info"><span>Current Approval Level</span><strong>{{ currentIOU.currentApprovalLevel || 'Draft · Not submitted' }}</strong></div>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="description-block"><h3>Description</h3><p>{{ currentIOU.description }}</p></div>
+          @if (currentIOU.additionalNotes) { <div class="description-block"><h3>Additional Notes</h3><p>{{ currentIOU.additionalNotes }}</p></div> }
+          <div class="attachments"><h3>Supporting Document / Attachment</h3>
+            @if (currentIOU.attachment) { <div class="attachment-item"><mat-icon>attach_file</mat-icon><span><strong>{{ currentIOU.attachment.fileName }}</strong><small>{{ currentIOU.attachment.sizeBytes / 1024 | number: '1.0-0' }} KB</small></span></div> }
+            @else { <p>No attachment provided.</p> }
+          </div>
+        </mat-card>
+
+        <mat-card appearance="outlined" class="detail-card">
+          <div class="section-heading"><div><h2>Approval Progress</h2><p>The actual approval route can be configured by the backend.</p></div></div>
+          <app-approval-workflow-progress [steps]="currentIOU.approvalWorkflow" />
+        </mat-card>
+
+        <mat-card appearance="outlined" class="detail-card">
+          <h2>Approval History</h2>
+          @if (currentIOU.approvalHistory.length) {
+            <ol class="history-list">
+              @for (entry of currentIOU.approvalHistory; track entry.id; let last = $last) {
+                <li class="history-entry" [class.last-entry]="last"><span class="history-marker"><mat-icon>{{ entry.action === 'Rejected' ? 'cancel' : entry.action === 'Returned' ? 'undo' : entry.action === 'Approved' ? 'check_circle' : 'send' }}</mat-icon></span><div><div class="history-heading"><strong>{{ entry.action }}</strong><span>{{ entry.approvalLevel }}</span></div><p>{{ entry.actorName }} · {{ entry.actorRole }}</p>@if (entry.comment) { <blockquote>{{ entry.comment }}</blockquote> }<time>{{ entry.createdAt | date: 'medium' }}</time></div></li>
+              }
+            </ol>
+          } @else { <p class="empty-history">No approval actions have been recorded.</p> }
+        </mat-card>
+      </div>
+
+      @if (canEditDraft || canCancel || canDecide) {
+        <aside class="action-panel">
+          <mat-card appearance="outlined" class="detail-card">
+            <h2>Actions</h2>
+            @if (canEditDraft) { <button mat-stroked-button type="button" (click)="editDraft()"><mat-icon>edit</mat-icon>Edit Draft</button> }
+            @if (canCancel) { <button mat-button type="button" class="cancel-action" (click)="cancelIOU()" [disabled]="saving"><mat-icon>cancel</mat-icon>Cancel IOU</button> }
+            @if (canDecide) {
+              <mat-divider></mat-divider>
+              <button mat-flat-button color="primary" type="button" (click)="approve()" [disabled]="saving"><mat-icon>check</mat-icon>Approve</button>
+              <button mat-stroked-button type="button" class="return-action" (click)="returnForChanges()" [disabled]="saving"><mat-icon>undo</mat-icon>Return for Changes</button>
+              <button mat-stroked-button type="button" class="reject-action" (click)="reject()" [disabled]="saving"><mat-icon>cancel</mat-icon>Reject</button>
+            }
+          </mat-card>
+        </aside>
+      }
+    </div>
+  }
+</section>

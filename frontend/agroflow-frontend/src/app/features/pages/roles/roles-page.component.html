@@ -1,0 +1,24 @@
+<section class="roles-page" aria-labelledby="roles-title">
+  <header class="page-heading">
+    <div>
+      <p class="eyebrow">ACCESS MANAGEMENT</p>
+      <h1 id="roles-title">Roles</h1>
+      <p class="description">Review the standard access roles available in AgroFlow.</p>
+    </div>
+  </header>
+
+  <div class="roles-grid">
+    @for (role of roles; track role.name) {
+      <mat-card class="role-card" appearance="outlined">
+        <div class="role-card-heading">
+          <span class="role-icon" [class]="'role-icon ' + role.tone"><mat-icon>{{ role.icon }}</mat-icon></span>
+          <mat-chip-set><mat-chip class="role-chip">{{ role.scope }}</mat-chip></mat-chip-set>
+        </div>
+        <h2>{{ role.name }}</h2>
+        <p>{{ role.description }}</p>
+        <mat-divider></mat-divider>
+        <div class="role-footnote"><mat-icon>lock_outline</mat-icon><span>Access is assigned by an administrator.</span></div>
+      </mat-card>
+    }
+  </div>
+</section>

@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <mat-dialog-content>
+    <p class="dialog-description">Add a comment explaining your decision for <strong>{{ data.requestId }}</strong> · {{ data.title }}</p>
+    <mat-form-field appearance="outline" class="comment-field">
+      <mat-label>Comment / reason</mat-label>
+      <textarea matInput formControlName="comment" rows="4" maxlength="1000" placeholder="Provide a clear reason for the requester"></textarea>
+      @if (form.controls.comment.hasError('required') || form.controls.comment.hasError('pattern')) {
+        <mat-error>A comment is required.</mat-error>
+      }
+      @if (form.controls.comment.hasError('maxlength')) { <mat-error>Use 1000 characters or fewer.</mat-error> }
+    </mat-form-field>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="close()">Keep Reviewing</button>
+    <button mat-flat-button [color]="data.decision === 'reject' ? 'warn' : 'primary'" type="submit" [disabled]="form.invalid">{{ submitLabel }}</button>
+  </mat-dialog-actions>
+</form>

@@ -1,0 +1,16 @@
+<section class="administration-page" aria-labelledby="administration-title">
+  <header class="page-heading">
+    <div><p class="eyebrow">WORKSPACE CONTROL</p><h1 id="administration-title">Administration</h1><p>Manage system configuration and administrative settings.</p></div>
+  </header>
+  <div class="admin-grid">
+    @for (link of links; track link.route) {
+      <a class="admin-link" [routerLink]="link.route">
+        <mat-card appearance="outlined">
+          <span class="icon-wrap"><mat-icon>{{ link.icon }}</mat-icon></span>
+          <span class="link-copy"><strong>{{ link.title }}</strong><span>{{ link.description }}</span></span>
+          <mat-icon class="arrow">arrow_forward</mat-icon>
+        </mat-card>
+      </a>
+    }
+  </div>
+</section>

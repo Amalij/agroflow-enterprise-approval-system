@@ -1,0 +1,12 @@
+:host { display: block; }
+h2[mat-dialog-title] { margin: 0; color: #26392d; font: 600 19px/1.25 'Space Grotesk', sans-serif; }
+.form-content { display: flex; min-width: min(440px, calc(100vw - 64px)); flex-direction: column; gap: 8px; padding-top: 14px; }
+.form-content mat-form-field { width: 100%; }
+.delete-copy { margin: 8px 0; color: #66756a; font-size: 13px; line-height: 1.6; }
+.delete-copy strong { color: #293a30; }
+mat-dialog-actions { padding: 12px 24px 18px; }
+
+@media (max-width: 520px) {
+  .form-content { min-width: 0; }
+  mat-dialog-actions { padding-right: 16px; padding-left: 16px; }
+}

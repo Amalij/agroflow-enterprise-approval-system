@@ -1,0 +1,150 @@
+<section class="users-page" aria-labelledby="users-title">
+  <header class="page-heading">
+    <div>
+      <p class="eyebrow">ACCESS MANAGEMENT</p>
+      <h1 id="users-title">Users</h1>
+      <p class="description">Manage system users and their access.</p>
+    </div>
+    <button mat-flat-button color="primary" type="button" (click)="openUserDialog('create')" [disabled]="saving || departments.length === 0">
+      <mat-icon>person_add</mat-icon>
+      Add User
+    </button>
+  </header>
+
+  @if (previewMode) {
+    <div class="preview-notice" role="status">
+      <mat-icon>info</mat-icon>
+      <span><strong>Preview data</strong> Changes are temporary and will not be sent to the server.</span>
+    </div>
+  }
+
+  @if (departmentOptionsArePreview) {
+    <p class="source-note">Department filter and form options are using the temporary department preview list.</p>
+  }
+
+  @if (errorMessage) {
+    <div class="error-notice" role="alert">
+      <mat-icon>cloud_off</mat-icon>
+      <span>{{ errorMessage }}</span>
+      <button mat-button type="button" (click)="retryUsers()" [disabled]="loading">Retry</button>
+    </div>
+  }
+
+  <section class="users-panel" aria-label="System users">
+    <div class="filters">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search by name or email</mat-label>
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput [formControl]="searchControl" placeholder="Name or email">
+        @if (searchControl.value) {
+          <button mat-icon-button matSuffix type="button" aria-label="Clear search" (click)="searchControl.setValue('')">
+            <mat-icon>close</mat-icon>
+          </button>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Department</mat-label>
+        <mat-select [value]="departmentFilter" (selectionChange)="onDepartmentFilterChange($event)">
+          <mat-option value="all">All departments</mat-option>
+          @for (department of departments; track department.id) {
+            <mat-option [value]="department.id">{{ department.name }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Role</mat-label>
+        <mat-select [value]="roleFilter" (selectionChange)="onRoleFilterChange($event)">
+          <mat-option value="all">All roles</mat-option>
+          @for (role of roles; track role) {
+            <mat-option [value]="role">{{ role }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select [value]="statusFilter" (selectionChange)="onStatusFilterChange($event)">
+          <mat-option value="all">All statuses</mat-option>
+          <mat-option value="active">Active</mat-option>
+          <mat-option value="inactive">Inactive</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    @if (loading) {
+      <mat-progress-bar mode="indeterminate" aria-label="Loading users"></mat-progress-bar>
+    }
+
+    <div class="table-wrap">
+      @if (dataSource.filteredData.length > 0) {
+        <table mat-table [dataSource]="dataSource" class="users-table">
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>User ID</th>
+            <td mat-cell *matCellDef="let user" class="id-cell">{{ user.id }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="fullName">
+            <th mat-header-cell *matHeaderCellDef>Full Name</th>
+            <td mat-cell *matCellDef="let user">
+              <span class="user-name">{{ user.fullName }}</span>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef>Email</th>
+            <td mat-cell *matCellDef="let user" class="email-cell">{{ user.email }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="department">
+            <th mat-header-cell *matHeaderCellDef>Department</th>
+            <td mat-cell *matCellDef="let user">{{ user.departmentName || 'Department unavailable' }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="role">
+            <th mat-header-cell *matHeaderCellDef>Role</th>
+            <td mat-cell *matCellDef="let user"><span class="role-label">{{ user.role }}</span></td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let user">
+              <mat-chip-set>
+                <mat-chip [class]="user.active ? 'status-chip active' : 'status-chip inactive'">
+                  {{ user.active ? 'Active' : 'Inactive' }}
+                </mat-chip>
+              </mat-chip-set>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef><span class="visually-hidden">Actions</span></th>
+            <td mat-cell *matCellDef="let user" class="actions-cell">
+              <button mat-icon-button type="button" matTooltip="View user" [attr.aria-label]="'View ' + user.fullName" (click)="openUserDialog('view', user)">
+                <mat-icon>visibility</mat-icon>
+              </button>
+              <button mat-icon-button type="button" matTooltip="Edit user" [attr.aria-label]="'Edit ' + user.fullName" (click)="openUserDialog('edit', user)" [disabled]="saving">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button type="button" matTooltip="Toggle user status" [attr.aria-label]="(user.active ? 'Deactivate ' : 'Activate ') + user.fullName" (click)="toggleUserStatus(user)" [disabled]="saving">
+                <mat-icon>{{ user.active ? 'person_off' : 'person_check' }}</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      } @else if (!loading) {
+        <div class="empty-state">
+          <mat-icon>{{ dataSource.data.length ? 'search_off' : 'group_off' }}</mat-icon>
+          <strong>{{ dataSource.data.length ? 'No matching users' : 'No users found' }}</strong>
+          <span>{{ dataSource.data.length ? 'Try changing your search or filters.' : 'Users returned by your organization will appear here.' }}</span>
+        </div>
+      }
+    </div>
+
+    <mat-paginator [pageSize]="10" [pageSizeOptions]="pageSizeOptions" [showFirstLastButtons]="true" aria-label="Select user page"></mat-paginator>
+  </section>
+</section>

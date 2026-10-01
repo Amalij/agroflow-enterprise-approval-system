@@ -1,0 +1,30 @@
+:host { display: block; }
+.topbar { display: flex; min-height: 70px; align-items: center; justify-content: space-between; padding: 0 30px; border-bottom: 1px solid #e2e9e3; background: #fff; }
+.topbar-leading, .topbar-actions { display: flex; align-items: center; }
+.topbar-leading { min-width: 0; gap: 12px; }
+.menu-toggle { display: none; color: #42564a; }
+.breadcrumb { display: flex; min-width: 0; align-items: center; gap: 7px; color: #849087; font-size: 12px; }
+.breadcrumb mat-icon { width: 15px; height: 15px; font-size: 15px; }
+.breadcrumb-current { overflow: hidden; color: #304238; font-weight: 600; text-overflow: ellipsis; white-space: nowrap; }
+.topbar-actions { gap: 17px; }
+.notification-button { color: #66756a; }
+.notification-button mat-icon { font-size: 22px; }
+.notification-menu-heading { display: flex; min-width: 290px; align-items: center; justify-content: space-between; padding: 14px 16px 10px; color: #2b3c31; font-size: 12px; }
+.notification-menu-heading span { color: #849087; font-size: 9px; }
+.notification-menu-state { display: flex; min-height: 74px; align-items: center; justify-content: center; padding: 12px; color: #7e8b81; font-size: 10px; }
+.notification-menu-list { max-height: 340px; overflow-y: auto; }
+.notification-menu-list button { min-height: 62px; }
+.notification-menu-list [matListItemTitle] { color: #34463a; font-size: 10px; font-weight: 600; }
+.notification-menu-list [matListItemLine] { color: #7e8b81; font-size: 9px; }
+.notification-menu-list mat-icon { color: #68826c; }
+.action-divider { width: 1px; height: 29px; background: #e4e9e4; }
+.profile-button { display: flex; min-width: 0; align-items: center; gap: 9px; padding: 4px 0; border: 0; color: inherit; background: transparent; cursor: pointer; text-align: left; }
+.avatar { display: grid; width: 34px; height: 34px; place-items: center; border: 1px solid #e0e9df; border-radius: 50%; color: #2a6548; background: #eef4e9; font-size: 10px; font-weight: 700; }
+.avatar mat-icon { width: 18px; height: 18px; font-size: 18px; }
+.profile-copy strong, .profile-copy small { display: block; }
+.profile-copy strong { color: #2a3930; font-size: 11px; font-weight: 700; }
+.profile-copy small { margin-top: 3px; color: #829087; font-size: 9px; }
+.profile-chevron { width: 17px; height: 17px; color: #849087; font-size: 17px; }
+
+@media (max-width: 959px) { .topbar { min-height: 62px; padding: 0 18px; } .menu-toggle { display: inline-flex; } }
+@media (max-width: 520px) { .topbar { padding: 0 12px; } .topbar-leading { gap: 5px; } .topbar-actions { gap: 9px; } .profile-copy, .profile-chevron, .action-divider, .breadcrumb-root, .breadcrumb mat-icon { display: none; } }

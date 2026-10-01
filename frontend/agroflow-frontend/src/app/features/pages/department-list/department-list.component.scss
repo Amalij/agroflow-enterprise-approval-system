@@ -1,0 +1,66 @@
+:host { display: block; }
+
+.department-page { display: flex; flex-direction: column; gap: 16px; animation: arrive 280ms ease-out both; }
+.page-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; padding: 4px 0 5px; }
+.eyebrow { margin: 0 0 8px; color: #6c8f61; font-size: 11px; font-weight: 700; letter-spacing: 1.2px; }
+h1 { margin: 0; color: #1d2c25; font: 600 30px/1.2 'Space Grotesk', sans-serif; }
+.description { margin: 9px 0 0; color: #728078; font-size: 13px; }
+.page-heading > button { min-height: 38px; flex: 0 0 auto; border-radius: 5px; font-size: 11px; font-weight: 600; }
+.page-heading > button mat-icon { width: 18px; height: 18px; margin-right: 4px; font-size: 18px; }
+
+.preview-notice, .error-notice { display: flex; align-items: center; gap: 10px; padding: 11px 13px; border: 1px solid; border-radius: 6px; font-size: 11px; line-height: 1.5; }
+.preview-notice { border-color: #e8dcc2; color: #725b36; background: #fbf6eb; }
+.preview-notice mat-icon { color: #ac8242; }
+.preview-notice strong { margin-right: 4px; }
+.error-notice { border-color: #edd6d2; color: #8b4d46; background: #fdf3f1; }
+.error-notice mat-icon { color: #b86156; }
+.error-notice span { flex: 1; }
+.error-notice button { flex: 0 0 auto; color: #8b4d46; font-size: 11px; }
+
+.department-panel { min-width: 0; overflow: hidden; border: 1px solid #e2e9e3; border-radius: 7px; background: #fff; box-shadow: 0 2px 7px rgb(34 55 40 / 3%); }
+.toolbar { display: flex; align-items: center; gap: 12px; padding: 17px 18px 4px; }
+.toolbar mat-form-field { margin-bottom: -1.25em; }
+.search-field { width: min(100%, 360px); }
+.status-field { width: 160px; }
+.toolbar mat-icon[matPrefix] { margin-right: 8px; color: #839087; }
+.table-wrap { position: relative; min-width: 0; overflow-x: auto; }
+.department-table { width: 100%; min-width: 890px; }
+.department-table th { height: 42px; color: #748078; background: #f8faf7; font-size: 10px; font-weight: 700; white-space: nowrap; }
+.department-table td { height: 58px; color: #536259; font-size: 11px; }
+.department-table th:first-child, .department-table td:first-child { padding-left: 20px; }
+.id-cell { color: #59705f !important; font-variant-numeric: tabular-nums; }
+.department-name, .department-code { display: block; }
+.department-name { color: #304238; font-size: 11px; font-weight: 600; }
+.department-code { margin-top: 4px; color: #909b92; font-size: 9px; }
+.description-cell { max-width: 275px; overflow: hidden; color: #758179 !important; text-overflow: ellipsis; white-space: nowrap; }
+.status-chip { min-height: 23px; border-radius: 4px !important; font-size: 9px; font-weight: 700; }
+.status-chip.active { --mdc-chip-elevated-container-color: #eaf3e7; --mdc-chip-label-text-color: #36704b; }
+.status-chip.inactive { --mdc-chip-elevated-container-color: #f0f1ef; --mdc-chip-label-text-color: #667168; }
+.actions-cell { white-space: nowrap; }
+.actions-cell button { width: 32px; height: 32px; color: #75837a; }
+.actions-cell button mat-icon { width: 17px; height: 17px; font-size: 17px; }
+.actions-cell .delete-action { color: #a35b53; }
+.empty-state { display: flex; min-height: 190px; flex-direction: column; align-items: center; justify-content: center; color: #748078; text-align: center; }
+.empty-state mat-icon { width: 26px; height: 26px; margin-bottom: 9px; color: #89a47c; font-size: 26px; }
+.empty-state strong { color: #35483b; font-size: 12px; }
+.empty-state span { margin-top: 5px; font-size: 11px; }
+mat-paginator { border-top: 1px solid #edf1ed; background: #fff; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); }
+
+@keyframes arrive { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .department-page { animation: none; } }
+
+@media (max-width: 700px) {
+	.page-heading { align-items: flex-start; flex-direction: column; gap: 15px; }
+	.toolbar { align-items: stretch; flex-direction: column; gap: 8px; padding: 16px 14px 5px; }
+	.search-field, .status-field { width: 100%; }
+	.department-table { min-width: 840px; }
+}
+
+@media (max-width: 480px) {
+	.department-page { gap: 13px; }
+	h1 { font-size: 27px; }
+	.error-notice { align-items: flex-start; flex-wrap: wrap; }
+	.error-notice span { min-width: calc(100% - 40px); }
+	.department-table { min-width: 820px; }
+}

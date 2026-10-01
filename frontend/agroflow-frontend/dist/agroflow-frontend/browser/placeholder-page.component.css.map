@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/features/pages/placeholder-page/placeholder-page.component.ts"],
+  "sourcesContent": ["\n    :host { display: block; }\n    .page-intro { padding: 12px 0 28px; animation: arrive 280ms ease-out both; }\n    .eyebrow { margin: 0 0 8px; color: #6c8f61; font-size: 11px; font-weight: 700; letter-spacing: 1.2px; }\n    h1 { margin: 0; color: #1d2c25; font: 600 30px/1.2 'Space Grotesk', sans-serif; }\n    .intro-copy { margin: 12px 0 0; color: #728078; font-size: 14px; }\n    @keyframes arrive { from { opacity: 0; transform: translateY(7px); } to { opacity: 1; transform: translateY(0); } }\n    @media (prefers-reduced-motion: reduce) { .page-intro { animation: none; } }\n  "],
+  "mappings": ";AACI;AAAQ,WAAA;;AACR,CAAA;AAAc,WAAA,KAAA,EAAA;AAAsB,aAAA,OAAA,MAAA,SAAA;;AACpC,CAAA;AAAW,UAAA,EAAA,EAAA;AAAiB,SAAA;AAAgB,aAAA;AAAiB,eAAA;AAAkB,kBAAA;;AAC/E;AAAK,UAAA;AAAW,SAAA;AAAgB,QAAA,IAAA,IAAA,CAAA,IAAA,eAAA,EAAA;;AAChC,CAAA;AAAc,UAAA,KAAA,EAAA;AAAkB,SAAA;AAAgB,aAAA;;AAChD,WAJoC;AAIhB;AAAO,aAAA;AAAY,eAAA,WAAA;;AAA8B;AAAK,aAAA;AAAY,eAAA,WAAA;;;AACtF,QAAA,wBAAA;AAA0C,GAL1C;AAKwD,eAAA;;;",
+  "names": []
+}

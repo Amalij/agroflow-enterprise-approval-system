@@ -1,0 +1,33 @@
+<section class="type-page" aria-labelledby="type-title">
+  <a class="back-link" routerLink="/requests"><mat-icon>arrow_back</mat-icon>Back to My Requests</a>
+  <header class="page-heading">
+    <p class="eyebrow">REQUEST WORKFLOW</p>
+    <h1 id="type-title">{{ selectedType ? selectedType + ' request' : 'Create Request' }}</h1>
+    <p class="description">Choose a request type to continue.</p>
+  </header>
+
+  @if (draftId) {
+    <div class="draft-notice" role="status"><mat-icon>edit_note</mat-icon><span>Draft {{ draftId }} selected. Draft forms are not available yet.</span></div>
+  }
+
+  @if (selectedType) {
+    <div class="selection-notice" role="status">
+      <mat-icon>check_circle</mat-icon>
+      <span>{{ selectedType }} selected. The request form will be available in a future workflow update.</span>
+    </div>
+  }
+
+  <div class="type-grid">
+    @for (option of options; track option.type) {
+      <mat-card class="type-card" appearance="outlined">
+        <span class="type-icon"><mat-icon>{{ option.icon }}</mat-icon></span>
+        <h2>{{ option.type }}</h2>
+        <p>{{ option.description }}</p>
+        <a mat-stroked-button [routerLink]="['/requests/create', option.path]" [queryParams]="draftId ? { draftId } : null">
+          Select {{ option.type }}
+          <mat-icon>arrow_forward</mat-icon>
+        </a>
+      </mat-card>
+    }
+  </div>
+</section>

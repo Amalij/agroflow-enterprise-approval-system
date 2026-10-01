@@ -1,0 +1,90 @@
+<section class="approval-details-page" aria-labelledby="approval-title">
+  <a class="back-link" routerLink="/approvals/pending"><mat-icon>arrow_back</mat-icon>Back to Approvals</a>
+  @if (loading) { <mat-progress-bar mode="indeterminate" aria-label="Loading approval"></mat-progress-bar> }
+
+  @if (errorMessage && !approval && !loading) {
+    <div class="error-state" role="alert"><mat-icon>error_outline</mat-icon><h1>Approval unavailable</h1><p>{{ errorMessage }}</p><button mat-stroked-button type="button" (click)="retry()">Retry</button></div>
+  }
+
+  @if (approval; as currentApproval) {
+    <header class="page-heading">
+      <div><p class="eyebrow">{{ currentApproval.requestType }} REQUEST · {{ currentApproval.id }}</p><h1 id="approval-title">{{ currentApproval.title }}</h1></div>
+      <app-approval-status-chip [status]="currentApproval.status" />
+    </header>
+
+    @if (previewMode) {
+      <div class="preview-notice" role="status"><mat-icon>info</mat-icon><span>This is temporary approval preview data. Decisions remain local to this session.</span></div>
+    }
+
+    <div class="details-layout">
+      <div class="details-column">
+        <mat-card appearance="outlined" class="details-card">
+          <h2>Request Information</h2>
+          <div class="information-grid">
+            <div><span>Request Type</span><strong>{{ currentApproval.requestType }}</strong></div>
+            <div><span>Department</span><strong>{{ currentApproval.departmentName }}</strong></div>
+            <div><span>Amount</span><strong>{{ currentApproval.amount | currency: currentApproval.currency:'symbol':'1.0-2' }}</strong></div>
+            <div><span>Submitted Date</span><strong>{{ currentApproval.submittedAt | date: 'mediumDate' }}</strong></div>
+            <div class="level-detail"><span>Current Approval Level</span><strong>{{ currentApproval.currentApprovalLevel }} · {{ currentApproval.levelNumber }} of {{ currentApproval.totalLevels }}</strong></div>
+          </div>
+          <mat-divider></mat-divider>
+          <div class="description-block"><h3>Description</h3><p>{{ currentApproval.description }}</p></div>
+        </mat-card>
+
+        <mat-card appearance="outlined" class="details-card history-card">
+          <div class="section-heading"><div><h2>Approval History</h2><p>Review previous decisions and comments.</p></div></div>
+          @if (currentApproval.history.length > 0) {
+            <ol class="history-list">
+              @for (entry of currentApproval.history; track entry.id; let last = $last) {
+                <li class="history-item" [class.last-item]="last">
+                  <span class="history-marker"><mat-icon>{{ entry.action === 'Rejected' ? 'cancel' : entry.action === 'Returned' ? 'undo' : entry.action === 'Approved' ? 'check_circle' : 'send' }}</mat-icon></span>
+                  <div class="history-content">
+                    <div class="history-title"><strong>{{ entry.action }}</strong><span>{{ entry.level }}</span></div>
+                    <p>{{ entry.actorName }} · {{ entry.actorRole }}</p>
+                    @if (entry.comment) { <blockquote>{{ entry.comment }}</blockquote> }
+                    <time [attr.datetime]="entry.createdAt">{{ entry.createdAt | date: 'medium' }}</time>
+                  </div>
+                </li>
+              }
+            </ol>
+          } @else {
+            <p class="no-history">No approval actions have been recorded yet.</p>
+          }
+        </mat-card>
+      </div>
+
+      <aside class="side-column">
+        <mat-card appearance="outlined" class="details-card requester-card">
+          <h2>Requester Information</h2>
+          <div class="requester-avatar"><mat-icon>person</mat-icon></div>
+          <strong class="requester-name">{{ currentApproval.requester.fullName }}</strong>
+          <a class="requester-email" [href]="'mailto:' + currentApproval.requester.email">{{ currentApproval.requester.email }}</a>
+          <mat-divider></mat-divider>
+          <div class="department-info"><span>Department</span><strong>{{ currentApproval.departmentName }}</strong></div>
+        </mat-card>
+
+        <mat-card appearance="outlined" class="details-card attachment-card">
+          <h2>Attachments</h2>
+          @if (currentApproval.attachments.length > 0) {
+            @for (attachment of currentApproval.attachments; track attachment.id) {
+              <div class="attachment-row"><mat-icon>attach_file</mat-icon><span><strong>{{ attachment.fileName }}</strong><small>{{ attachment.sizeBytes / 1024 | number: '1.0-0' }} KB</small></span></div>
+            }
+          } @else {
+            <p class="no-attachments">No attachments were included.</p>
+          }
+        </mat-card>
+      </aside>
+    </div>
+
+    @if (canDecide) {
+      <div class="decision-bar" aria-label="Approval actions">
+        <span class="decision-hint">Decision for {{ currentApproval.id }}</span>
+        <div class="decision-actions">
+          <button mat-stroked-button class="return-button" type="button" (click)="returnForChanges()" [disabled]="saving"><mat-icon>undo</mat-icon>Return / Request Changes</button>
+          <button mat-stroked-button class="reject-button" type="button" (click)="reject()" [disabled]="saving"><mat-icon>cancel</mat-icon>Reject</button>
+          <button mat-flat-button color="primary" type="button" (click)="approve()" [disabled]="saving"><mat-icon>check</mat-icon>Approve</button>
+        </div>
+      </div>
+    }
+  }
+</section>

@@ -1,0 +1,23 @@
+:host { display: block; }
+.roles-page { display: flex; flex-direction: column; gap: 19px; animation: arrive 260ms ease-out both; }
+.page-heading { padding: 4px 0 5px; }
+.eyebrow { margin: 0 0 8px; color: #6c8f61; font-size: 11px; font-weight: 700; letter-spacing: 1.2px; }
+h1 { margin: 0; color: #1d2c25; font: 600 30px/1.2 'Space Grotesk', sans-serif; }
+.description { margin: 9px 0 0; color: #728078; font-size: 13px; }
+.roles-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; }
+.role-card { min-width: 0; padding: 19px; border-color: #e2e9e3; border-radius: 7px; background: #fff; box-shadow: 0 2px 7px rgb(34 55 40 / 3%); }
+.role-card-heading { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.role-icon { display: grid; width: 36px; height: 36px; flex: 0 0 36px; place-items: center; border-radius: 8px; }
+.role-icon mat-icon { width: 20px; height: 20px; font-size: 20px; }
+.role-icon.forest { color: #37714e; background: #eaf3e7; }
+.role-icon.blue { color: #426f88; background: #e8f1f5; }
+.role-icon.amber { color: #a66c24; background: #fbf0dd; }
+.role-icon.sage { color: #687f5b; background: #eef3e9; }
+.role-chip { min-height: 24px; border-radius: 4px !important; color: #68776c; background: #f2f5f1 !important; font-size: 9px; font-weight: 600; }
+.role-card h2 { margin: 17px 0 6px; color: #2a3c31; font: 600 17px/1.25 'Space Grotesk', sans-serif; }
+.role-card > p { min-height: 38px; margin: 0 0 16px; color: #728078; font-size: 11px; line-height: 1.6; }
+.role-footnote { display: flex; align-items: center; gap: 6px; padding-top: 12px; color: #8a958d; font-size: 9px; }
+.role-footnote mat-icon { width: 14px; height: 14px; font-size: 14px; }
+@keyframes arrive { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .roles-page { animation: none; } }
+@media (max-width: 700px) { .roles-grid { grid-template-columns: minmax(0, 1fr); } .role-card { padding: 16px; } }

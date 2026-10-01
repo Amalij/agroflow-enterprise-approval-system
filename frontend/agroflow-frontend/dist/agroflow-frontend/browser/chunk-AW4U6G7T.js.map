@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/features/users/models/user.model.ts"],
+  "sourcesContent": ["export const USER_ROLES = ['Admin', 'Manager', 'Approver', 'Employee'] as const;\r\n\r\nexport type UserRole = typeof USER_ROLES[number];\r\nexport type UserStatus = 'Active' | 'Inactive';\r\n\r\nexport interface UserRecord {\r\n  id: number;\r\n  fullName: string;\r\n  email: string;\r\n  departmentId: number;\r\n  departmentName?: string;\r\n  role: UserRole;\r\n  active: boolean;\r\n  createdAt?: string;\r\n}\r\n\r\nexport interface UserWrite {\r\n  fullName: string;\r\n  email: string;\r\n  departmentId: number;\r\n  role: UserRole;\r\n  active: boolean;\r\n}"],
+  "mappings": ";AAAO,IAAM,aAAa,CAAC,SAAS,WAAW,YAAY,UAAU;",
+  "names": []
+}

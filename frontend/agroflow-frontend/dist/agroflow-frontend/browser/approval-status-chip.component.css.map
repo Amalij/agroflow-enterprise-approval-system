@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["src/app/features/approvals/components/approval-status-chip/approval-status-chip.component.ts"],
+  "sourcesContent": ["\n    :host { display: inline-block; }\n    .approval-status-chip { min-height: 23px; border-radius: 4px !important; font-size: 9px; font-weight: 700; }\n    .approval-status-chip.pending { --mdc-chip-elevated-container-color: #fbf1df; --mdc-chip-label-text-color: #936322; }\n    .approval-status-chip.changes-requested { --mdc-chip-elevated-container-color: #eaf1f5; --mdc-chip-label-text-color: #507389; }\n    .approval-status-chip.approved { --mdc-chip-elevated-container-color: #eaf3e7; --mdc-chip-label-text-color: #36704b; }\n    .approval-status-chip.rejected { --mdc-chip-elevated-container-color: #f8eae8; --mdc-chip-label-text-color: #9e504a; }\n  "],
+  "mappings": ";AACI;AAAQ,WAAA;;AACR,CAAA;AAAwB,cAAA;AAAkB,iBAAA;AAA+B,aAAA;AAAgB,eAAA;;AACzF,CADA,oBACA,CAAA;AAAgC,uCAAA;AAA8C,+BAAA;;AAC9E,CAFA,oBAEA,CAAA;AAA0C,uCAAA;AAA8C,+BAAA;;AACxF,CAHA,oBAGA,CAAA;AAAiC,uCAAA;AAA8C,+BAAA;;AAC/E,CAJA,oBAIA,CAAA;AAAiC,uCAAA;AAA8C,+BAAA;;",
+  "names": []
+}

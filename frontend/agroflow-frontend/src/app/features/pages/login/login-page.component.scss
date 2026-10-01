@@ -1,0 +1,61 @@
+:host { display: block; min-height: 100vh; }
+
+.login-shell { display: grid; min-height: 100vh; grid-template-columns: minmax(320px, .84fr) minmax(0, 1.16fr); background: #f5f7f4; }
+.brand-panel { position: relative; display: flex; min-height: 100vh; flex-direction: column; overflow: hidden; padding: 42px 48px 30px; color: #edf3eb; background: #173d32; }
+.brand-panel::after { position: absolute; right: -130px; bottom: 12%; width: 380px; height: 380px; border: 1px solid rgb(219 237 211 / 9%); border-radius: 50%; content: ''; box-shadow: 0 0 0 36px rgb(219 237 211 / 3%), 0 0 0 74px rgb(219 237 211 / 2%); pointer-events: none; }
+.brand-lockup, .mobile-brand { display: flex; align-items: center; gap: 12px; }
+.brand-mark { display: grid; width: 39px; height: 39px; flex: 0 0 39px; place-items: center; border: 1px solid rgb(222 241 204 / 26%); border-radius: 9px; color: #c6e47a; background: rgb(195 226 147 / 10%); }
+.brand-mark mat-icon { width: 22px; height: 22px; font-size: 22px; }
+.brand-name { color: #fff; font: 700 25px/1 'Space Grotesk', sans-serif; }
+.brand-name span { color: #c6e47a; }
+.brand-message { position: relative; z-index: 1; width: min(100%, 420px); margin: auto 0; padding: 25px 0 50px; }
+.brand-eyebrow, .eyebrow { margin: 0 0 13px; color: #88b17a; font-size: 10px; font-weight: 700; letter-spacing: 1.4px; }
+.brand-message h1 { margin: 0; color: #f2f5ec; font: 600 36px/1.2 'Space Grotesk', sans-serif; }
+.brand-message > p:last-child { max-width: 300px; margin: 19px 0 0; color: #b7c8b9; font-size: 13px; line-height: 1.7; }
+.brand-footer { display: flex; align-items: center; gap: 10px; color: #9aaf9d; font-size: 9px; font-weight: 700; letter-spacing: 1.1px; }
+.footer-rule { width: 24px; height: 1px; background: #96bb7f; }
+
+.login-region { display: grid; min-width: 0; min-height: 100vh; place-items: center; padding: 48px 30px; }
+.login-content { width: min(100%, 410px); }
+.mobile-brand { display: none; margin-bottom: 28px; }
+.login-card { padding: 31px 30px 22px; border-color: #e3e9e3; border-radius: 8px; background: #fff; box-shadow: 0 12px 36px rgb(31 55 38 / 6%); }
+.login-intro { margin-bottom: 25px; }
+.login-intro .eyebrow { margin-bottom: 8px; color: #6c8f61; }
+.login-intro h2 { margin: 0; color: #24362b; font: 600 24px/1.25 'Space Grotesk', sans-serif; }
+.login-intro > p:last-child { margin: 8px 0 0; color: #7d8980; font-size: 12px; }
+.full-width { width: 100%; margin-bottom: 10px; }
+.full-width mat-icon[matPrefix] { margin-right: 9px; color: #87948a; }
+.full-width button[matSuffix] { color: #728078; }
+.form-options { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 1px 0 21px; }
+.form-options mat-checkbox { color: #59675e; font-size: 11px; }
+.form-options a { color: #39734f; font-size: 11px; font-weight: 700; text-decoration: none; }
+.form-options a:hover { color: #1d4d35; text-decoration: underline; }
+.forgot-guidance { margin: -10px 0 14px; color: #708078; font-size: 10px; line-height: 1.5; }
+.sign-in-button { display: flex; width: 100%; min-height: 44px; justify-content: center; border-radius: 5px; font-size: 12px; font-weight: 700; }
+.sign-in-button mat-icon { width: 17px; height: 17px; margin-left: 9px; font-size: 17px; }
+.form-alert { display: flex; align-items: flex-start; gap: 8px; margin: -7px 0 15px; padding: 10px; border: 1px solid #edd6d2; border-radius: 5px; color: #8b4d46; background: #fdf3f1; font-size: 10px; line-height: 1.5; }
+.form-alert mat-icon { width: 16px; height: 16px; flex: 0 0 16px; font-size: 16px; }
+.development-note { margin: 14px 0 0; color: #8a958d; font-size: 9px; line-height: 1.5; text-align: center; }
+.login-footer { margin: 18px 0 0; color: #8b968d; font-size: 10px; text-align: center; }
+
+@media (max-width: 900px) {
+  .login-shell { grid-template-columns: minmax(280px, .72fr) minmax(0, 1.28fr); }
+  .brand-panel { padding-right: 32px; padding-left: 32px; }
+  .brand-message h1 { font-size: 31px; }
+}
+
+@media (max-width: 680px) {
+  .login-shell { grid-template-columns: minmax(0, 1fr); }
+  .brand-panel { display: none; }
+  .login-region { min-height: 100vh; padding: 30px 18px; }
+  .login-content { width: min(100%, 410px); }
+  .mobile-brand { display: flex; }
+  .login-card { padding: 26px 22px 20px; }
+}
+
+@media (max-width: 380px) {
+  .login-region { padding: 22px 13px; }
+  .login-card { padding-right: 17px; padding-left: 17px; }
+  .login-intro h2 { font-size: 22px; }
+  .form-options { align-items: flex-start; flex-direction: column; gap: 8px; }
+}

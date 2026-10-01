@@ -1,0 +1,17 @@
+<ol class="workflow" aria-label="Approval workflow progress">
+  @for (step of steps; track step.name; let last = $last) {
+    <li class="workflow-step" [class]="'workflow-step ' + step.state" [class.last-step]="last">
+      <span class="step-marker">
+        @if (step.state === 'complete') { <mat-icon>check</mat-icon> }
+        @else if (step.state === 'rejected') { <mat-icon>close</mat-icon> }
+        @else { <span class="step-number">{{ $index + 1 }}</span> }
+      </span>
+      <span class="step-copy">
+        <strong>{{ step.name }}</strong>
+        @if (step.actorName) { <small>{{ step.actorName }}</small> }
+        @if (step.completedAt) { <small>{{ step.completedAt | date: 'mediumDate' }}</small> }
+        @if (step.state === 'current') { <small class="current-label">Current step</small> }
+      </span>
+    </li>
+  }
+</ol>

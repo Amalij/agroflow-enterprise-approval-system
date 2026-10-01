@@ -1,0 +1,83 @@
+<main class="login-shell">
+  <aside class="brand-panel" aria-label="AgroFlow">
+    <div class="brand-lockup">
+      <span class="brand-mark"><mat-icon>eco</mat-icon></span>
+      <span class="brand-name">agro<span>flow</span></span>
+    </div>
+
+    <div class="brand-message">
+      <p class="brand-eyebrow">ENTERPRISE WORKSPACE</p>
+      <h1>Clear workflows.<br>Confident decisions.</h1>
+      <p>Enterprise Workflow &amp; Approval Management System</p>
+    </div>
+
+    <div class="brand-footer"><span class="footer-rule"></span><span>AGROFLOW ENTERPRISE</span></div>
+  </aside>
+
+  <section class="login-region" aria-labelledby="login-title">
+    <div class="login-content">
+      <div class="mobile-brand" aria-label="AgroFlow">
+        <span class="brand-mark"><mat-icon>eco</mat-icon></span>
+        <span class="brand-name">agro<span>flow</span></span>
+      </div>
+
+      <mat-card class="login-card" appearance="outlined">
+        <div class="login-intro">
+          <p class="eyebrow">WELCOME BACK</p>
+          <h2 id="login-title">Sign in to AgroFlow</h2>
+          <p>Use your organization account to continue.</p>
+        </div>
+
+        @if (errorMessage) {
+          <div class="form-alert" role="alert"><mat-icon>error_outline</mat-icon><span>{{ errorMessage }}</span></div>
+        }
+
+        <form [formGroup]="form" (ngSubmit)="signIn()" novalidate>
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Email / Username</mat-label>
+            <input matInput type="email" formControlName="email" autocomplete="username" placeholder="name@organization.com">
+            <mat-icon matPrefix>mail_outline</mat-icon>
+            @if (form.controls.email.hasError('required') && form.controls.email.touched) {
+              <mat-error>Email or username is required.</mat-error>
+            }
+            @if (form.controls.email.hasError('email') && form.controls.email.touched) {
+              <mat-error>Enter a valid email address.</mat-error>
+            }
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Password</mat-label>
+            <input matInput [type]="showPassword ? 'text' : 'password'" formControlName="password" autocomplete="current-password">
+            <mat-icon matPrefix>lock_outline</mat-icon>
+            <button mat-icon-button matSuffix type="button" [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'" (click)="showPassword = !showPassword">
+              <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
+            </button>
+            @if (form.controls.password.hasError('required') && form.controls.password.touched) {
+              <mat-error>Password is required.</mat-error>
+            }
+          </mat-form-field>
+
+          <div class="form-options">
+            <mat-checkbox formControlName="rememberMe" color="primary">Remember me</mat-checkbox>
+            <a href="#password-reset" (click)="showPasswordResetGuidance($event)">Forgot Password?</a>
+          </div>
+
+          @if (forgotMessage) {
+            <p class="forgot-guidance" role="status">{{ forgotMessage }}</p>
+          }
+
+          <button mat-flat-button color="primary" class="sign-in-button" type="submit" [disabled]="submitting">
+            <span>{{ submitting ? 'Signing in...' : 'Sign In' }}</span>
+            <mat-icon>{{ submitting ? 'hourglass_top' : 'arrow_forward' }}</mat-icon>
+          </button>
+        </form>
+
+        @if (developmentMockEnabled) {
+          <p class="development-note">Development sign-in is enabled: use any valid email and non-empty password.</p>
+        }
+      </mat-card>
+
+      <p class="login-footer">Secure access for your organization</p>
+    </div>
+  </section>
+</main>

@@ -1,0 +1,23 @@
+<section class="admin-page" aria-labelledby="approval-config-title">
+  <header class="page-heading"><div><p class="eyebrow">ADMINISTRATION</p><h1 id="approval-config-title">Approval Configuration</h1><p>Manage approval routes, role assignments, and request limits.</p></div></header>
+  @if (service.previewMode()) { <div class="preview-notice" role="status"><mat-icon>info</mat-icon><span><strong>Development preview</strong> Changes are temporary and are not sent to the server.</span></div> }
+  <mat-card appearance="outlined" class="table-card">
+    <mat-card-content>
+      @if (loading) { <div class="state"><mat-progress-spinner diameter="34" mode="indeterminate"/><span>Loading approval routes…</span></div> }
+      @else if (errorMessage) { <div class="state error-state" role="alert"><mat-icon>error_outline</mat-icon><span>{{ errorMessage }}</span><button mat-stroked-button type="button" (click)="load()">Retry</button></div> }
+      @else if (!configurations.length) { <div class="state"><mat-icon>rule</mat-icon><span>No approval configurations are available.</span></div> }
+      @else {
+        <div class="table-scroll"><table mat-table [dataSource]="configurations" aria-label="Approval configuration routes">
+          <ng-container matColumnDef="requestType"><th mat-header-cell *matHeaderCellDef>Request Type</th><td mat-cell *matCellDef="let row">{{ row.requestType }}</td></ng-container>
+          <ng-container matColumnDef="department"><th mat-header-cell *matHeaderCellDef>Department</th><td mat-cell *matCellDef="let row">{{ row.department }}</td></ng-container>
+          <ng-container matColumnDef="approvalLevel"><th mat-header-cell *matHeaderCellDef>Approval Level</th><td mat-cell *matCellDef="let row">Level {{ row.approvalLevel }}</td></ng-container>
+          <ng-container matColumnDef="approverRole"><th mat-header-cell *matHeaderCellDef>Approver Role</th><td mat-cell *matCellDef="let row">{{ row.approverRole }}</td></ng-container>
+          <ng-container matColumnDef="amountRange"><th mat-header-cell *matHeaderCellDef>Amount Range</th><td mat-cell *matCellDef="let row">{{ row.minimumAmount | currency:'USD':'symbol':'1.0-2' }} – {{ row.maximumAmount === null ? 'No limit' : (row.maximumAmount | currency:'USD':'symbol':'1.0-2') }}</td></ng-container>
+          <ng-container matColumnDef="status"><th mat-header-cell *matHeaderCellDef>Status</th><td mat-cell *matCellDef="let row"><mat-chip [class.inactive-chip]="!row.active">{{ row.active ? 'Active' : 'Inactive' }}</mat-chip></td></ng-container>
+          <ng-container matColumnDef="actions"><th mat-header-cell *matHeaderCellDef>Actions</th><td mat-cell *matCellDef="let row"><div class="row-actions"><button mat-icon-button type="button" aria-label="View approval route" matTooltip="View" (click)="openConfiguration(row, 'view')"><mat-icon>visibility</mat-icon></button><button mat-icon-button type="button" aria-label="Edit approval route" matTooltip="Edit" (click)="openConfiguration(row, 'edit')"><mat-icon>edit</mat-icon></button><mat-slide-toggle [checked]="row.active" [aria-label]="(row.active ? 'Deactivate' : 'Activate') + ' approval route'" (change)="toggleStatus(row, $event.checked)"/></div></td></ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr><tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table></div>
+      }
+    </mat-card-content>
+  </mat-card>
+</section>

@@ -1,0 +1,53 @@
+@import '@angular/material/prebuilt-themes/azure-blue.css';
+
+:root {
+  color-scheme: light;
+  --agro-ink: #1d2c25;
+  --agro-muted: #728078;
+  --agro-line: #e2e9e3;
+  --agro-paper: #ffffff;
+  --agro-canvas: #f3f6f2;
+  --agro-forest: #173d32;
+  --agro-leaf: #73a95c;
+  --agro-lime: #c6e47a;
+  --agro-amber: #d99342;
+  --mat-sys-primary: #286a4d;
+  --mat-sys-on-primary: #ffffff;
+  --mat-sys-primary-container: #dcefe2;
+  --mat-sys-on-primary-container: #153c2a;
+  --mat-sys-secondary: #606e48;
+  --mat-sys-on-secondary: #ffffff;
+  --mat-sys-outline: #cbd6cd;
+  font-family: 'DM Sans', sans-serif;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-width: 320px;
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  color: var(--agro-ink);
+  background: var(--agro-canvas);
+}
+
+button,
+a {
+  font: inherit;
+}
+
+.mat-mdc-menu-panel {
+  border: 1px solid var(--agro-line);
+  border-radius: 8px !important;
+  box-shadow: 0 12px 32px rgb(24 45 32 / 12%) !important;
+}

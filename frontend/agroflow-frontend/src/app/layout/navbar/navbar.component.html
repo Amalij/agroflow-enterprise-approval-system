@@ -1,0 +1,70 @@
+<header class="topbar">
+  <div class="topbar-leading">
+    <button mat-icon-button class="menu-toggle" aria-label="Open navigation" (click)="menuToggle.emit()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <div class="breadcrumb" aria-label="Breadcrumb">
+      <span class="breadcrumb-root">Workspace</span>
+      <mat-icon>chevron_right</mat-icon>
+      <span class="breadcrumb-current">{{ breadcrumb }}</span>
+    </div>
+  </div>
+
+  <div class="topbar-actions">
+    <button
+      mat-icon-button
+      class="notification-button"
+      [matMenuTriggerFor]="notificationsMenu"
+      [matBadge]="notificationService.unreadCount()"
+      [matBadgeHidden]="notificationService.unreadCount() === 0"
+      matBadgeColor="warn"
+      matBadgeSize="small"
+      [attr.aria-label]="'Notifications, ' + notificationService.unreadCount() + ' unread'">
+      <mat-icon>notifications_none</mat-icon>
+    </button>
+    <mat-menu #notificationsMenu="matMenu" xPosition="before" class="notifications-menu">
+      <div class="notification-menu-heading">
+        <strong>Notifications</strong>
+        <span>{{ notificationService.unreadCount() }} unread</span>
+      </div>
+      <mat-divider></mat-divider>
+      @if (notificationService.loading()) {
+        <div class="notification-menu-state"><mat-progress-spinner mode="indeterminate" diameter="22"></mat-progress-spinner></div>
+      } @else if (notificationService.recentNotifications().length > 0) {
+        <mat-nav-list class="notification-menu-list">
+          @for (notification of notificationService.recentNotifications(); track notification.id) {
+            <button mat-list-item type="button" (click)="openNotification(notification)">
+              <mat-icon matListItemIcon>{{ notification.status === 'Unread' ? 'mark_email_unread' : 'notifications_none' }}</mat-icon>
+              <span matListItemTitle>{{ notification.title }}</span>
+              <span matListItemLine>{{ notification.message }}</span>
+            </button>
+          }
+        </mat-nav-list>
+      } @else {
+        <div class="notification-menu-state">No recent notifications</div>
+      }
+      <mat-divider></mat-divider>
+      <button mat-menu-item type="button" (click)="viewAllNotifications()">
+        <mat-icon>notifications</mat-icon>
+        <span>View All Notifications</span>
+      </button>
+    </mat-menu>
+
+    <span class="action-divider" aria-hidden="true"></span>
+
+    <button mat-button class="profile-button" [matMenuTriggerFor]="accountMenu" aria-label="Open account menu">
+      <span class="avatar"><mat-icon>person</mat-icon></span>
+      <span class="profile-copy">
+        <strong>{{ authService.currentUser()?.displayName ?? 'Account' }}</strong>
+        <small>{{ authService.currentUser()?.email ?? 'Signed-in user' }}</small>
+      </span>
+      <mat-icon class="profile-chevron">expand_more</mat-icon>
+    </button>
+    <mat-menu #accountMenu="matMenu" xPosition="before">
+      <button mat-menu-item type="button" (click)="logout()">
+        <mat-icon>logout</mat-icon>
+        <span>Sign out</span>
+      </button>
+    </mat-menu>
+  </div>
+</header>

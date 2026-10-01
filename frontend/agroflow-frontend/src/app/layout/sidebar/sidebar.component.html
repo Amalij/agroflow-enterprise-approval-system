@@ -1,0 +1,39 @@
+<div class="brand-lockup">
+  <div class="brand-mark" aria-hidden="true"><mat-icon>eco</mat-icon></div>
+  <div class="brand-name">agro<span>flow</span><small>ENTERPRISE</small></div>
+</div>
+
+<nav class="navigation" aria-label="Main navigation">
+  @for (section of navigation; track section.label) {
+    <section class="nav-section">
+      <a
+        class="section-link"
+        [routerLink]="section.route"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: !section.children }"
+        (click)="navigate.emit()">
+        <mat-icon>{{ section.icon }}</mat-icon>
+        <span>{{ section.label }}</span>
+      </a>
+      @if (section.children) {
+        <div class="subnav">
+          @for (item of section.children; track item.route) {
+            <a
+              class="subnav-link"
+              [routerLink]="item.route"
+              routerLinkActive="is-active"
+              [routerLinkActiveOptions]="{ exact: true }"
+              (click)="navigate.emit()">
+              {{ item.label }}
+            </a>
+          }
+        </div>
+      }
+    </section>
+  }
+</nav>
+
+<div class="sidebar-foot">
+  <div class="season-mark"><mat-icon>wb_sunny</mat-icon></div>
+  <div><strong>Growing together</strong><span>Built for better decisions</span></div>
+</div>

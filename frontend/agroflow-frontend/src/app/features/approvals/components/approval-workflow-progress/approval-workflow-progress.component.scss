@@ -1,0 +1,23 @@
+:host { display: block; }
+.workflow { display: flex; align-items: flex-start; margin: 0; padding: 8px 0; list-style: none; }
+.workflow-step { position: relative; display: flex; min-width: 0; flex: 1; align-items: center; flex-direction: column; text-align: center; }
+.workflow-step:not(.last-step)::after { position: absolute; z-index: 0; top: 15px; left: calc(50% + 16px); width: calc(100% - 32px); height: 2px; background: #dce7dc; content: ''; }
+.workflow-step.complete:not(.last-step)::after { background: #76a176; }
+.step-marker { z-index: 1; display: grid; width: 32px; height: 32px; flex: 0 0 32px; place-items: center; border: 1px solid #d8e1d8; border-radius: 50%; color: #77857a; background: #fff; }
+.step-marker mat-icon { width: 17px; height: 17px; color: #4d8154; font-size: 17px; }
+.step-number { font-size: 10px; font-weight: 700; }
+.workflow-step.complete .step-marker { border-color: #94b791; background: #eff6ed; }
+.workflow-step.current .step-marker { border: 2px solid #4b8051; color: #376d43; background: #f1f7ed; box-shadow: 0 0 0 4px #edf4e9; }
+.workflow-step.rejected .step-marker { border-color: #c77d73; color: #a4544d; background: #fbefed; }
+.workflow-step.rejected .step-marker mat-icon { color: #a4544d; }
+.step-copy { display: flex; min-width: 0; flex-direction: column; gap: 4px; padding: 12px 5px 0; }
+.step-copy strong { color: #58665d; font-size: 9px; font-weight: 600; line-height: 1.35; }
+.step-copy small { color: #87928a; font-size: 8px; line-height: 1.35; }
+.workflow-step.complete .step-copy strong, .workflow-step.current .step-copy strong { color: #344a39; }
+.step-copy .current-label { color: #3d784a; font-weight: 700; }
+@media (max-width: 520px) {
+  .workflow { align-items: stretch; flex-direction: column; gap: 0; padding: 4px 0; }
+  .workflow-step { min-height: 58px; flex: initial; align-items: flex-start; flex-direction: row; gap: 11px; text-align: left; }
+  .workflow-step:not(.last-step)::after { top: 32px; left: 15px; width: 2px; height: calc(100% - 5px); }
+  .step-copy { padding: 2px 0 12px; }
+}

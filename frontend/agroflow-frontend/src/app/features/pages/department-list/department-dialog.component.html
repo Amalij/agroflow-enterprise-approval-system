@@ -1,0 +1,51 @@
+<h2 mat-dialog-title>{{ title }}</h2>
+
+@if (data.mode === 'delete') {
+  <mat-dialog-content>
+    <p class="delete-copy">Delete <strong>{{ data.department?.name }}</strong>? This action cannot be undone.</p>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button type="button" (click)="close()">Cancel</button>
+    <button mat-flat-button color="warn" type="button" (click)="confirmDelete()">Delete Department</button>
+  </mat-dialog-actions>
+} @else {
+  <form [formGroup]="form" (ngSubmit)="save()">
+    <mat-dialog-content class="form-content">
+      <mat-form-field appearance="outline">
+        <mat-label>Department Name</mat-label>
+        <input matInput formControlName="name" maxlength="120" placeholder="e.g. Operations">
+        @if (form.controls.name.hasError('required') && form.controls.name.touched) {
+          <mat-error>Department name is required.</mat-error>
+        }
+        @if (form.controls.name.hasError('maxlength')) {
+          <mat-error>Use 120 characters or fewer.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Description</mat-label>
+        <textarea matInput formControlName="description" rows="3" maxlength="500" placeholder="Describe the department's responsibilities"></textarea>
+        @if (form.controls.description.hasError('maxlength')) {
+          <mat-error>Use 500 characters or fewer.</mat-error>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="active">
+          <mat-option [value]="true">Active</mat-option>
+          <mat-option [value]="false">Inactive</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </mat-dialog-content>
+
+    <mat-dialog-actions align="end">
+      <button mat-button type="button" (click)="close()">{{ data.mode === 'view' ? 'Close' : 'Cancel' }}</button>
+      @if (data.mode !== 'view') {
+        <button mat-flat-button color="primary" type="submit" [disabled]="form.invalid">
+          {{ data.mode === 'create' ? 'Add Department' : 'Save Changes' }}
+        </button>
+      }
+    </mat-dialog-actions>
+  </form>
+}

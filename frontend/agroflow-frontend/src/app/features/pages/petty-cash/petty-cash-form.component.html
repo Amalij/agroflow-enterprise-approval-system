@@ -1,0 +1,59 @@
+<section class="petty-form-page" aria-labelledby="petty-form-title">
+  <a class="back-link" routerLink="/petty-cash"><mat-icon>arrow_back</mat-icon>Back to Petty Cash</a>
+  <header class="page-heading"><div><p class="eyebrow">FINANCE WORKSPACE</p><h1 id="petty-form-title">{{ pageTitle }}</h1><p class="description">Record a small operational expense for approval.</p></div></header>
+  @if (previewMode) { <div class="preview-notice" role="status"><mat-icon>info</mat-icon><span><strong>Development preview</strong> Changes are temporary and won't be sent to the server.</span></div> }
+  @else if (departmentPreview) { <div class="preview-notice" role="status"><mat-icon>info</mat-icon><span><strong>Department preview</strong> Department options are temporary; request actions still use the configured API.</span></div> }
+  @if (errorMessage) { <div class="error-notice" role="alert"><mat-icon>error_outline</mat-icon><span>{{ errorMessage }}</span></div> }
+  @if (loadingDraft) { <div class="loading-panel"><mat-progress-spinner mode="indeterminate" diameter="32" aria-label="Loading draft"></mat-progress-spinner><span>Loading draft…</span></div> }
+
+  <mat-card appearance="outlined" class="form-card">
+    <div class="form-card-heading"><div><h2>Petty Cash Information</h2><p>Provide the expense details and supporting receipt.</p></div><span class="required-hint">* Required</span></div>
+    <mat-divider></mat-divider>
+    <form [formGroup]="form" (ngSubmit)="submitForApproval()" novalidate>
+      <div class="form-grid">
+        <mat-form-field appearance="outline" class="wide-field">
+          <mat-label>Purpose</mat-label><input matInput formControlName="purpose" maxlength="120" placeholder="Briefly explain the expense purpose">
+          @if (form.controls.purpose.hasError('required') && form.controls.purpose.touched) { <mat-error>Purpose is required.</mat-error> }
+          @if (form.controls.purpose.hasError('maxlength')) { <mat-error>Use 120 characters or fewer.</mat-error> }
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="wide-field">
+          <mat-label>Description</mat-label><textarea matInput formControlName="description" rows="4" maxlength="2000" placeholder="Describe the expense and business need"></textarea>
+          @if (form.controls.description.hasError('required') && form.controls.description.touched) { <mat-error>Description is required.</mat-error> }
+          @if (form.controls.description.hasError('minlength')) { <mat-error>Enter at least 10 characters.</mat-error> }
+          @if (form.controls.description.hasError('maxlength')) { <mat-error>Use 2000 characters or fewer.</mat-error> }
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Amount</mat-label><span matTextPrefix>$&nbsp;</span><input matInput type="number" min="0.01" step="0.01" formControlName="amount" placeholder="0.00">
+          @if (form.controls.amount.hasError('required') && form.controls.amount.touched) { <mat-error>Amount is required.</mat-error> }
+          @if (form.controls.amount.hasError('min')) { <mat-error>Amount must be greater than 0.</mat-error> }
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Expense Date</mat-label><input matInput [matDatepicker]="expenseDatePicker" [max]="maxExpenseDate" formControlName="expenseDate" placeholder="Choose a date"><mat-datepicker-toggle matIconSuffix [for]="expenseDatePicker"></mat-datepicker-toggle><mat-datepicker #expenseDatePicker></mat-datepicker>
+          @if (form.controls.expenseDate.hasError('required') && form.controls.expenseDate.touched) { <mat-error>Expense date is required.</mat-error> }
+          @if (form.controls.expenseDate.hasError('futureDate')) { <mat-error>Expense date cannot be in the future.</mat-error> }
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Department</mat-label><mat-select formControlName="departmentId">@for (department of departments; track department.id) { <mat-option [value]="department.id">{{ department.name }}</mat-option> }</mat-select>
+          @if (form.controls.departmentId.hasError('required') && form.controls.departmentId.touched) { <mat-error>Select a department.</mat-error> }
+          @if (loadingDepartments) { <mat-hint>Loading departments…</mat-hint> }
+        </mat-form-field>
+        <mat-form-field appearance="outline">
+          <mat-label>Expense Category</mat-label><mat-select formControlName="expenseCategory">@for (category of categories; track category) { <mat-option [value]="category">{{ category }}</mat-option> }</mat-select>
+          @if (form.controls.expenseCategory.hasError('required') && form.controls.expenseCategory.touched) { <mat-error>Expense category is required.</mat-error> }
+        </mat-form-field>
+        <div class="attachment-field wide-field">
+          <div class="field-label">Supporting Document / Receipt <span>Optional · PDF, JPG, PNG up to 10 MB</span></div>
+          <input #fileInput type="file" accept="application/pdf,image/jpeg,image/png" hidden (change)="onFileSelected($event)">
+          <div class="attachment-control"><button mat-stroked-button type="button" (click)="fileInput.click()"><mat-icon>attach_file</mat-icon>Choose receipt</button>
+            @if (selectedFile) { <span class="file-name"><mat-icon>description</mat-icon>{{ selectedFile.name }}<button mat-icon-button type="button" aria-label="Remove receipt" (click)="removeAttachment()"><mat-icon>close</mat-icon></button></span> }
+            @else if (existingAttachmentName) { <span class="file-name"><mat-icon>description</mat-icon>{{ existingAttachmentName }}</span> }
+            @else { <span class="no-file">No file selected</span> }
+          </div>
+        </div>
+        <mat-form-field appearance="outline" class="wide-field"><mat-label>Additional Notes</mat-label><textarea matInput formControlName="additionalNotes" rows="3" maxlength="1000" placeholder="Add context for reviewers"></textarea>@if (form.controls.additionalNotes.hasError('maxlength')) { <mat-error>Use 1000 characters or fewer.</mat-error> }</mat-form-field>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="form-actions"><button mat-button type="button" (click)="cancel()" [disabled]="saving">Cancel</button><span class="action-spacer"></span><button mat-stroked-button type="button" (click)="saveDraft()" [disabled]="saving || loadingDraft"><mat-icon>save</mat-icon>Save as Draft</button><button mat-flat-button color="primary" type="submit" [disabled]="saving || loadingDraft"><mat-icon>send</mat-icon>Submit for Approval</button></div>
+    </form>
+  </mat-card>
+</section>

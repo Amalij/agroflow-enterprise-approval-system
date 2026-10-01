@@ -1,0 +1,133 @@
+<section class="department-page" aria-labelledby="departments-title">
+  <header class="page-heading">
+    <div>
+      <p class="eyebrow">ORGANIZATION</p>
+      <h1 id="departments-title">Departments</h1>
+      <p class="description">Manage organizational departments.</p>
+    </div>
+    <button mat-flat-button color="primary" type="button" (click)="openDialog('create')" [disabled]="saving">
+      <mat-icon>add</mat-icon>
+      Add Department
+    </button>
+  </header>
+
+  @if (previewMode) {
+    <div class="preview-notice" role="status">
+      <mat-icon>info</mat-icon>
+      <span><strong>Preview data</strong> Changes are temporary and will not be saved to the server.</span>
+    </div>
+  }
+
+  @if (errorMessage) {
+    <div class="error-notice" role="alert">
+      <mat-icon>cloud_off</mat-icon>
+      <span>{{ errorMessage }}</span>
+      <button mat-button type="button" (click)="retryDepartments()" [disabled]="loading">Retry</button>
+    </div>
+  }
+
+  <section class="department-panel" aria-label="Department list">
+    <div class="toolbar">
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Search departments</mat-label>
+        <mat-icon matPrefix>search</mat-icon>
+        <input matInput [formControl]="searchControl" placeholder="Name, ID, code, or description">
+        @if (searchControl.value) {
+          <button mat-icon-button matSuffix type="button" aria-label="Clear search" (click)="searchControl.setValue('')">
+            <mat-icon>close</mat-icon>
+          </button>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="status-field">
+        <mat-label>Status</mat-label>
+        <mat-select [value]="statusFilter" (selectionChange)="onStatusFilterChange($event)">
+          <mat-option value="all">All statuses</mat-option>
+          <mat-option value="active">Active</mat-option>
+          <mat-option value="inactive">Inactive</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    @if (loading) {
+      <mat-progress-bar mode="indeterminate" aria-label="Loading departments"></mat-progress-bar>
+    }
+
+    <div class="table-wrap">
+      @if (dataSource.filteredData.length > 0) {
+        <table mat-table [dataSource]="dataSource" class="department-table">
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef>Department ID</th>
+            <td mat-cell *matCellDef="let department" class="id-cell">{{ department.id }}</td>
+          </ng-container>
+
+          <ng-container matColumnDef="name">
+            <th mat-header-cell *matHeaderCellDef>Department Name</th>
+            <td mat-cell *matCellDef="let department">
+              <span class="department-name">{{ department.name }}</span>
+              @if (department.code) {
+                <span class="department-code">{{ department.code }}</span>
+              }
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="description">
+            <th mat-header-cell *matHeaderCellDef>Description</th>
+            <td mat-cell *matCellDef="let department" class="description-cell">
+              {{ department.description || 'No description provided' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Status</th>
+            <td mat-cell *matCellDef="let department">
+              <mat-chip-set>
+                <mat-chip [class]="department.active ? 'status-chip active' : 'status-chip inactive'">
+                  {{ department.active ? 'Active' : 'Inactive' }}
+                </mat-chip>
+              </mat-chip-set>
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="createdAt">
+            <th mat-header-cell *matHeaderCellDef>Created Date</th>
+            <td mat-cell *matCellDef="let department">
+              {{ department.createdAt ? (department.createdAt | date: 'mediumDate') : '—' }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef><span class="visually-hidden">Actions</span></th>
+            <td mat-cell *matCellDef="let department" class="actions-cell">
+              <button mat-icon-button type="button" matTooltip="View department" [attr.aria-label]="'View ' + department.name" (click)="openDialog('view', department)">
+                <mat-icon>visibility</mat-icon>
+              </button>
+              <button mat-icon-button type="button" matTooltip="Edit department" [attr.aria-label]="'Edit ' + department.name" (click)="openDialog('edit', department)" [disabled]="saving">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button type="button" class="delete-action" matTooltip="Delete department" [attr.aria-label]="'Delete ' + department.name" (click)="openDialog('delete', department)" [disabled]="saving">
+                <mat-icon>delete_outline</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      } @else if (!loading) {
+        <div class="empty-state">
+          <mat-icon>{{ dataSource.data.length ? 'search_off' : 'corporate_fare' }}</mat-icon>
+          <strong>{{ dataSource.data.length ? 'No matching departments' : 'No departments found' }}</strong>
+          <span>{{ dataSource.data.length ? 'Try changing your search or status filter.' : 'Departments from your organization will appear here.' }}</span>
+        </div>
+      }
+    </div>
+
+    <mat-paginator
+      [pageSize]="10"
+      [pageSizeOptions]="pageSizeOptions"
+      [showFirstLastButtons]="true"
+      aria-label="Select department page">
+    </mat-paginator>
+  </section>
+</section>

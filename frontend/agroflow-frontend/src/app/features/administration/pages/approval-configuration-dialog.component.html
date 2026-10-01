@@ -1,0 +1,14 @@
+<h2 mat-dialog-title>{{ data.mode === 'view' ? 'Approval Route' : 'Edit Approval Route' }}</h2>
+<mat-dialog-content>
+  <form class="dialog-form" [formGroup]="form">
+    <mat-form-field appearance="outline"><mat-label>Request Type</mat-label><mat-select formControlName="requestType">@for (type of requestTypes; track type) { <mat-option [value]="type">{{ type }}</mat-option> }</mat-select><mat-error>Choose a request type.</mat-error></mat-form-field>
+    <mat-form-field appearance="outline"><mat-label>Department</mat-label><mat-select formControlName="department">@for (department of departments; track department) { <mat-option [value]="department">{{ department }}</mat-option> }</mat-select><mat-error>Choose a department.</mat-error></mat-form-field>
+    <mat-form-field appearance="outline"><mat-label>Approval Level</mat-label><input matInput type="number" min="1" formControlName="approvalLevel"><mat-error>Level must be at least 1.</mat-error></mat-form-field>
+    <mat-form-field appearance="outline"><mat-label>Approver Role</mat-label><mat-select formControlName="approverRole">@for (role of roles; track role) { <mat-option [value]="role">{{ role }}</mat-option> }</mat-select><mat-error>Choose an approver role.</mat-error></mat-form-field>
+    <mat-form-field appearance="outline"><mat-label>Minimum Amount</mat-label><input matInput type="number" min="0" step="0.01" formControlName="minimumAmount"><mat-error>Enter zero or a greater amount.</mat-error></mat-form-field>
+    <mat-form-field appearance="outline"><mat-label>Maximum Amount</mat-label><input matInput type="number" min="0" step="0.01" placeholder="No limit" formControlName="maximumAmount"><mat-error>Enter zero or a greater amount.</mat-error></mat-form-field>
+    @if (form.hasError('invalidAmountRange')) { <p class="form-error" role="alert">Maximum amount must be greater than or equal to the minimum amount.</p> }
+    <mat-slide-toggle formControlName="active">Active</mat-slide-toggle>
+  </form>
+</mat-dialog-content>
+<mat-dialog-actions align="end"><button mat-button type="button" mat-dialog-close>Close</button>@if (data.mode === 'edit') { <button mat-flat-button color="primary" type="button" (click)="save()">Save changes</button> }</mat-dialog-actions>

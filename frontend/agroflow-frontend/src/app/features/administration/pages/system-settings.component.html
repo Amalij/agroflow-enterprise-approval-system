@@ -1,0 +1,19 @@
+<section class="admin-page" aria-labelledby="system-settings-title">
+  <header class="page-heading"><div><p class="eyebrow">ADMINISTRATION</p><h1 id="system-settings-title">System Settings</h1><p>Configure organization defaults and notification preferences.</p></div></header>
+  @if (service.previewMode()) { <div class="preview-notice" role="status"><mat-icon>info</mat-icon><span><strong>Development preview</strong> Saved changes are temporary and are not sent to the server.</span></div> }
+  @if (loading) { <div class="state"><mat-progress-spinner diameter="34" mode="indeterminate"/><span>Loading system settings…</span></div> }
+  @else if (loadError) { <div class="state error-state" role="alert"><mat-icon>error_outline</mat-icon><span>{{ loadError }}</span><button mat-stroked-button type="button" (click)="load()">Retry</button></div> }
+  @else {
+    <mat-card appearance="outlined" class="table-card"><form class="settings-form" [formGroup]="form" (ngSubmit)="save()">
+      <mat-form-field appearance="outline"><mat-label>Organization Name</mat-label><input matInput formControlName="organizationName" maxlength="100"><mat-error>Enter an organization name (up to 100 characters).</mat-error></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>Default Currency</mat-label><mat-select formControlName="defaultCurrency">@for (currency of currencies; track currency) { <mat-option [value]="currency">{{ currency }}</mat-option> }</mat-select><mat-error>Select a default currency.</mat-error></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>Date Format</mat-label><mat-select formControlName="dateFormat">@for (format of dateFormats; track format) { <mat-option [value]="format">{{ format }}</mat-option> }</mat-select><mat-error>Select a date format.</mat-error></mat-form-field>
+      <mat-form-field appearance="outline"><mat-label>Request Number Prefix</mat-label><input matInput formControlName="requestNumberPrefix" maxlength="8"><mat-hint>2–8 letters, numbers, or hyphens</mat-hint><mat-error>Enter a valid prefix between 2 and 8 characters.</mat-error></mat-form-field>
+      <h2>Notification Settings</h2><mat-divider/>
+      <label class="notification-setting"><span>Email notifications</span><mat-slide-toggle formControlName="email" aria-label="Email notifications"/></label>
+      <label class="notification-setting"><span>In-app notifications</span><mat-slide-toggle formControlName="inApp" aria-label="In-app notifications"/></label>
+      <label class="notification-setting"><span>Approval reminders</span><mat-slide-toggle formControlName="approvalReminders" aria-label="Approval reminders"/></label>
+      <div class="form-actions"><button mat-flat-button color="primary" type="submit" [disabled]="service.saving()"><mat-icon>save</mat-icon>Save Settings</button></div>
+    </form></mat-card>
+  }
+</section>

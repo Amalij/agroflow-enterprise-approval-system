@@ -1,0 +1,49 @@
+<section class="details-page" aria-labelledby="details-title">
+  <a class="back-link" routerLink="/requests"><mat-icon>arrow_back</mat-icon>Back to My Requests</a>
+
+  @if (loading) { <mat-progress-bar mode="indeterminate" aria-label="Loading request details"></mat-progress-bar> }
+
+  @if (errorMessage && !request && !loading) {
+    <div class="error-state" role="alert">
+      <mat-icon>error_outline</mat-icon>
+      <h1>Request unavailable</h1>
+      <p>{{ errorMessage }}</p>
+      <button mat-stroked-button type="button" (click)="retry()">Retry</button>
+    </div>
+  }
+
+  @if (request; as currentRequest) {
+    <header class="page-heading">
+      <div>
+        <p class="eyebrow">{{ currentRequest.type }} REQUEST</p>
+        <h1 id="details-title">{{ currentRequest.title }}</h1>
+        <p class="request-id">{{ currentRequest.id }}</p>
+      </div>
+      <app-request-status-chip [status]="currentRequest.status" />
+    </header>
+
+    @if (previewMode) {
+      <div class="preview-notice" role="status"><mat-icon>info</mat-icon><span>Viewing temporary preview data for your signed-in account.</span></div>
+    }
+
+    <mat-card appearance="outlined" class="details-card">
+      <div class="details-grid">
+        <div class="detail-field"><span>Request Type</span><strong>{{ currentRequest.type }}</strong></div>
+        <div class="detail-field"><span>Department</span><strong>{{ currentRequest.departmentName }}</strong></div>
+        <div class="detail-field"><span>Amount</span><strong>{{ currentRequest.amount | currency: currentRequest.currency:'symbol':'1.0-2' }}</strong></div>
+        <div class="detail-field"><span>Submitted Date</span><strong>{{ currentRequest.submittedAt | date: 'mediumDate' }}</strong></div>
+      </div>
+      <mat-divider></mat-divider>
+      <div class="description-block"><h2>Title / Description</h2><p>{{ currentRequest.description }}</p></div>
+    </mat-card>
+
+    <div class="detail-actions">
+      @if (canEdit) {
+        <button mat-stroked-button type="button" (click)="editDraft()"><mat-icon>edit</mat-icon>Edit Draft</button>
+      }
+      @if (canCancel) {
+        <button mat-button type="button" class="cancel-button" (click)="cancelRequest()" [disabled]="cancelling"><mat-icon>cancel</mat-icon>Cancel Request</button>
+      }
+    </div>
+  }
+</section>
