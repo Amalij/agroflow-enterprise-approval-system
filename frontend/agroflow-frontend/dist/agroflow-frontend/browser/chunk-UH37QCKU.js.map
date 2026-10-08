@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/features/approvals/approvals.routes.ts"],
-  "sourcesContent": ["import { Routes } from '@angular/router';\r\n\r\nconst page = () => import('../pages/placeholder-page/placeholder-page.component').then((module) => module.PlaceholderPageComponent);\r\n\r\nexport const APPROVAL_ROUTES: Routes = [\r\n  {\r\n    path: 'pending',\r\n    loadComponent: () => import('../pages/approvals/pending-approvals.component').then((module) => module.PendingApprovalsComponent),\r\n    data: { title: 'Approvals', breadcrumb: 'Approvals' }\r\n  },\r\n  { path: 'history', loadComponent: page, data: { title: 'Approval History', breadcrumb: 'Approval History' } }\r\n  ,{\r\n    path: ':approvalId',\r\n    loadComponent: () => import('../pages/approvals/approval-details.component').then((module) => module.ApprovalDetailsComponent),\r\n    data: { title: 'Approval Details', breadcrumb: 'Approval Details' }\r\n  }\r\n];"],
-  "mappings": ";;;AAEA,IAAM,OAAO,MAAM,OAAO,qBAAsD,EAAE,KAAK,CAAC,WAAW,OAAO,wBAAwB;AAE3H,IAAM,kBAA0B;EACrC;IACE,MAAM;IACN,eAAe,MAAM,OAAO,qBAAgD,EAAE,KAAK,CAAC,WAAW,OAAO,yBAAyB;IAC/H,MAAM,EAAE,OAAO,aAAa,YAAY,YAAW;;EAErD,EAAE,MAAM,WAAW,eAAe,MAAM,MAAM,EAAE,OAAO,oBAAoB,YAAY,mBAAkB,EAAE;EAC1G;IACC,MAAM;IACN,eAAe,MAAM,OAAO,qBAA+C,EAAE,KAAK,CAAC,WAAW,OAAO,wBAAwB;IAC7H,MAAM,EAAE,OAAO,oBAAoB,YAAY,mBAAkB;;;",
-  "names": []
-}

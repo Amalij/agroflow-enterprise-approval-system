@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/features/requests/components/request-status-chip/request-status-chip.component.ts"],
-  "sourcesContent": ["\n    :host { display: inline-block; }\n    .status-chip { min-height: 23px; border-radius: 4px !important; font-size: 9px; font-weight: 700; }\n    .status-chip.draft { --mdc-chip-elevated-container-color: #eef1ed; --mdc-chip-label-text-color: #647267; }\n    .status-chip.pending { --mdc-chip-elevated-container-color: #fbf1df; --mdc-chip-label-text-color: #936322; }\n    .status-chip.approved { --mdc-chip-elevated-container-color: #eaf3e7; --mdc-chip-label-text-color: #36704b; }\n    .status-chip.rejected { --mdc-chip-elevated-container-color: #f8eae8; --mdc-chip-label-text-color: #9e504a; }\n    .status-chip.cancelled { --mdc-chip-elevated-container-color: #f0f1ef; --mdc-chip-label-text-color: #667168; }\n    .status-chip.returned { --mdc-chip-elevated-container-color: #eaf1f5; --mdc-chip-label-text-color: #507389; }\n    .status-chip.completed { --mdc-chip-elevated-container-color: #eaf3e7; --mdc-chip-label-text-color: #36704b; }\n  "],
-  "mappings": ";AACI;AAAQ,WAAA;;AACR,CAAA;AAAe,cAAA;AAAkB,iBAAA;AAA+B,aAAA;AAAgB,eAAA;;AAChF,CADA,WACA,CAAA;AAAqB,uCAAA;AAA8C,+BAAA;;AACnE,CAFA,WAEA,CAAA;AAAuB,uCAAA;AAA8C,+BAAA;;AACrE,CAHA,WAGA,CAAA;AAAwB,uCAAA;AAA8C,+BAAA;;AACtE,CAJA,WAIA,CAAA;AAAwB,uCAAA;AAA8C,+BAAA;;AACtE,CALA,WAKA,CAAA;AAAyB,uCAAA;AAA8C,+BAAA;;AACvE,CANA,WAMA,CAAA;AAAwB,uCAAA;AAA8C,+BAAA;;AACtE,CAPA,WAOA,CAAA;AAAyB,uCAAA;AAA8C,+BAAA;;",
-  "names": []
-}

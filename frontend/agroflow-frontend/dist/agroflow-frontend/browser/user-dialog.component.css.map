@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/features/pages/user-list/user-dialog.component.scss"],
-  "sourcesContent": [":host { display: block; }\r\nh2[mat-dialog-title] { margin: 0; color: #26392d; font: 600 19px/1.25 'Space Grotesk', sans-serif; }\r\n.form-content { display: flex; min-width: min(440px, calc(100vw - 64px)); flex-direction: column; gap: 7px; padding-top: 14px; }\r\n.form-content mat-form-field { width: 100%; }\r\nmat-dialog-actions { padding: 12px 24px 18px; }\r\n@media (max-width: 520px) { .form-content { min-width: 0; } mat-dialog-actions { padding-right: 16px; padding-left: 16px; } }"],
-  "mappings": ";AAAA;AAAQ,WAAA;;AACR,EAAA,CAAA;AAAuB,UAAA;AAAW,SAAA;AAAgB,QAAA,IAAA,IAAA,CAAA,KAAA,eAAA,EAAA;;AAClD,CAAA;AAAgB,WAAA;AAAe,aAAA,IAAA,KAAA,EAAA,MAAA,EAAA;AAA2C,kBAAA;AAAwB,OAAA;AAAU,eAAA;;AAC5G,CADA,aACA;AAA+B,SAAA;;AAC/B;AAAqB,WAAA,KAAA,KAAA;;AACrB,QAAA,WAAA;AAA4B,GAH5B;AAG4C,eAAA;;AAAgB;AAAqB,mBAAA;AAAqB,kBAAA;;;",
-  "names": []
-}

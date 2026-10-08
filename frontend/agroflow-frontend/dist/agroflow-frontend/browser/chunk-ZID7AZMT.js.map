@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/features/requests/models/request.model.ts"],
-  "sourcesContent": ["export const REQUEST_TYPES = ['IOU', 'Petty Cash', 'Procurement'] as const;\r\nexport const REQUEST_STATUSES = ['Draft', 'Pending', 'Approved', 'Rejected', 'Cancelled'] as const;\r\n\r\nexport type RequestType = typeof REQUEST_TYPES[number];\r\nexport type RequestStatus = typeof REQUEST_STATUSES[number];\r\nexport type WorkflowStatus = RequestStatus | 'Returned' | 'Completed';\r\n\r\nexport interface RequestRecord {\r\n  id: string;\r\n  type: RequestType;\r\n  title: string;\r\n  description: string;\r\n  departmentName: string;\r\n  amount: number;\r\n  currency: string;\r\n  status: RequestStatus;\r\n  submittedAt: string;\r\n  ownerEmail: string;\r\n}\r\n\r\nexport interface RequestFilters {\r\n  query: string;\r\n  type: RequestType | 'all';\r\n  status: RequestStatus | 'all';\r\n  dateFrom: string;\r\n  dateTo: string;\r\n}"],
-  "mappings": ";AAAO,IAAM,gBAAgB,CAAC,OAAO,cAAc,aAAa;AACzD,IAAM,mBAAmB,CAAC,SAAS,WAAW,YAAY,YAAY,WAAW;",
-  "names": []
-}

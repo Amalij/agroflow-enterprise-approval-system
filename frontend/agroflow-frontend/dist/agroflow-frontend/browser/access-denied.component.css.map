@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["src/app/features/pages/access-denied/access-denied.component.ts"],
-  "sourcesContent": ["\n    :host { display: block; }\n    .access-denied { display: flex; min-height: 380px; align-items: center; flex-direction: column; justify-content: center; padding: 36px 20px; text-align: center; }\n    .access-icon { display: grid; width: 48px; height: 48px; margin-bottom: 18px; place-items: center; border-radius: 12px; color: #a45b53; background: #f8eae8; }\n    .access-icon mat-icon { width: 23px; height: 23px; font-size: 23px; }\n    .eyebrow { margin: 0 0 8px; color: #8b6d56; font-size: 10px; font-weight: 700; letter-spacing: 1.2px; }\n    h1 { margin: 0; color: #26382d; font: 600 24px/1.25 'Space Grotesk', sans-serif; }\n    p:not(.eyebrow) { max-width: 390px; margin: 10px 0 20px; color: #78847b; font-size: 12px; line-height: 1.6; }\n    a { min-height: 38px; border-radius: 5px; font-size: 11px; }\n  "],
-  "mappings": ";AACI;AAAQ,WAAA;;AACR,CAAA;AAAiB,WAAA;AAAe,cAAA;AAAmB,eAAA;AAAqB,kBAAA;AAAwB,mBAAA;AAAyB,WAAA,KAAA;AAAoB,cAAA;;AAC7I,CAAA;AAAe,WAAA;AAAe,SAAA;AAAa,UAAA;AAAc,iBAAA;AAAqB,eAAA;AAAqB,iBAAA;AAAqB,SAAA;AAAgB,cAAA;;AACxI,CADA,YACA;AAAwB,SAAA;AAAa,UAAA;AAAc,aAAA;;AACnD,CAAA;AAAW,UAAA,EAAA,EAAA;AAAiB,SAAA;AAAgB,aAAA;AAAiB,eAAA;AAAkB,kBAAA;;AAC/E;AAAK,UAAA;AAAW,SAAA;AAAgB,QAAA,IAAA,IAAA,CAAA,KAAA,eAAA,EAAA;;AAChC,CAAA,KAAA,CAFA;AAEkB,aAAA;AAAkB,UAAA,KAAA,EAAA;AAAqB,SAAA;AAAgB,aAAA;AAAiB,eAAA;;AAC1F;AAAI,cAAA;AAAkB,iBAAA;AAAoB,aAAA;;",
-  "names": []
-}
